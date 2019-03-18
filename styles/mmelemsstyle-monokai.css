@@ -1,0 +1,94 @@
+.mmelem 
+{
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: #a6e22e;
+    margin: 0px;
+    padding: 20px 4px 4px 4px;
+    box-shadow: 0px 0px 3px 2px #666;
+    
+}
+.mmelem .mmclose
+{
+    position: absolute;
+    background-color: #fd971f;
+    top: 2px;
+    right: 2px;
+    width: 16px;
+    height: 16px;
+    border: solid 2px #f92672;
+}
+
+.mmmain
+{
+    z-index: 2;
+    background-color: #66d9ef;
+    box-shadow: 0px 0px 5px 2px #66d9ef;
+}
+.mmmain input
+{
+    font-family: Courier New, Courier, monospace;
+    font-weight: bold;
+    font-size: 1.6em;
+    width: 12em;
+
+}
+.mmheader
+{
+    z-index: 1;
+    background-color: #f92672;
+    box-shadow: 0px 0px 5px 2px #f92672;
+}
+.mmheader input
+{
+    font-family: Courier New, Courier, monospace;
+    font-size: 1em;
+    color: #66d9ef;
+}
+
+.mmheader .mmclose
+{
+    background-color: #fd971f;
+    border: solid 2px #66d9ef;
+}
+
+.mmnote
+{
+    box-shadow: 0px 0px 5px 2px #a6e22e;
+    background-color: #a6e22e;
+}
+.mmnote textarea
+{
+    background-color: #272822;
+    color: #f92672;
+
+}
+
+.mmelem .mm_title
+{
+    border: none;
+    color: #a6e22e;
+    text-align: center;
+    background-color: transparent;
+    display: block;
+    background-color: #272822;
+}
+.genline
+{
+    stroke:#f92672;
+    stroke-width:2;
+    fill:none;
+}
+.pregenline
+{
+    stroke:#f92672;
+    stroke-width:2;
+    fill:none;
+}
+.genline:hover
+{
+    stroke-width: 8!important;
+    opacity: 0.5;
+    cursor: crosshair;
+}

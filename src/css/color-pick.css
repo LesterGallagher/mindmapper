@@ -1,0 +1,36 @@
+#color-picker
+{
+    display: none;
+    position: absolute;
+    top: 100px;
+    left: 100px;
+}
+#color-picker-background
+{
+    background-color: white;
+    opacity: 0.4;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    z-index: -1;
+}
+#color-picker input[type=range]
+{
+    display: block;
+}
+#color-picker #red
+{
+    
+}
+#color-picker #green
+{
+    
+}
+#color-picker #blue
+{
+    
+}

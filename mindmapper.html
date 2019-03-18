@@ -1,0 +1,76 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Document</title>
+    <meta name="description" content="The HTML5 Herald">
+    <meta name="author" content="SitePoint">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/winstrap/0.5.12/css/winstrap.min.css"
+        integrity="sha256-thANYRzqHaPvmVssJquXIONTgdXuJ1sJZ06x7PHNVcM=" crossorigin="anonymous" />
+
+    <link rel="stylesheet" type="text/css" href="bundle/style.bundle.css">
+
+    <script>
+        var theme = (window.localStorage && window.localStorage.theme) || 'dark';
+        document.write('<link id="mmwindow-style" rel="stylesheet" href="styles/mmelemsstyle-' + theme + '.css">')
+        document.write('<link id="mmelem-style" rel="stylesheet" href="styles/mmwindow-' + theme + '.css">')
+    </script>
+
+</head>
+
+<body>
+
+    <div id="fullscreen-loader"></div>
+
+    <div id="wrapper">
+        <div id="menubar">
+            
+            <button id="spawn_elem_btn0" type="button">
+                <span class="glyph glyph-add" aria-hidden="true"></span>
+            </button>
+            <button id="spawn_elem_btn1" type="button">
+                <span class="glyph glyph-add" aria-hidden="true"></span>
+            </button>
+            <button id="spawn_elem_btn2" type="button">
+                <span class="glyph glyph-add" aria-hidden="true"></span>
+            </button>
+            <button title="Save to storage" id="save-to-storage" type="button">
+                <span class="glyph glyph-save" aria-hidden="true"></span>
+            </button>
+            <button id="btn-back-home" type="button">
+                <span class="glyph glyph-home" aria-hidden="true"></span>
+                </button>
+            <button id="choose-color-theme" type="button">
+                <div id="choose-color-theme-options"></div>
+            </button>
+        </div>
+
+        <div id="field">
+            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="svg_wrapper"></svg>
+            <input autocomplete="off" id="mainh" type="text" name="mainheader" value="Name">
+            <div id="color-picker">
+                <input type="range" id="red" max="255" name="red">
+                <input type="range" id="green" max="255" name="green">
+                <input type="range" id="blue" max="255" name="blue">
+                <input type="text" id="hex" name="hex" value="#FFFFFF">
+                <div id="color-picker-background"></div>
+            </div>
+        </div>
+        <div id="mouses"></div>
+        <button id="save-mm" class="btn1">
+            Save Mind Map<br>
+            <small>Saved <span id="save-last">just now</span></small>
+        </button>
+        <div id="messages"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.35.3/es6-shim.min.js"
+        integrity="sha256-THlgZSjqt7idNSdnUvGypTuXB5C4hV9kSuPYrbiq19o=" crossorigin="anonymous"></script>
+    <script src="bundle/main.bundle.js"></script>
+</body>
+
+</html>

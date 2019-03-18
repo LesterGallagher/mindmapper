@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/winstrap/0.5.12/css/winstrap.min.css"
+        integrity="sha256-thANYRzqHaPvmVssJquXIONTgdXuJ1sJZ06x7PHNVcM=" crossorigin="anonymous" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+
+    <script>(function (e, t, n) { var r = e.querySelectorAll("html")[0]; r.className = r.className.replace(/(^|\s)no-js(\s|$)/, "$1js$2") })(document, window, 0);</script>
+
+    <style>
+        body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .body-overlay {
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: 0;
+            height: 200px;
+        }
+
+        .height100 {
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        .bg-triangles {
+            background-image: url('./img/trianglify.svg');
+            background-size: cover;
+            z-index: -1;
+        }
+
+        .bg-overlay-color {
+            background: rgb(255, 0, 0);
+            opacity: 0.5;
+            z-index: -1;
+            animation: cycleColors 60s linear 1s infinite;
+        }
+
+        .padded-top {
+            padding-top: 20px;
+        }
+
+        @keyframes cycleColors {
+            0% {
+                background: rgb(255, 0, 0);
+            }
+
+            33% {
+                background: rgb(0, 255, 0);
+            }
+
+            66% {
+                background: rgb(0, 0, 255);
+            }
+        }
+
+        .panel {}
+
+        .nopadding {
+            padding: 0;
+        }
+
+        .wrapper {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .inner-content {
+            max-width: 900px;
+            height: calc(100% - 80px);
+            margin: auto;
+            margin-top: 40px;
+            margin-bottom: 40px;
+            background: #fff;
+            box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        @media screen and (max-width: 900px) {
+            .inner-content {
+                margin: 0;
+                height: 100%;
+            }
+        }
+
+        #detail-items [detail-item-index] {
+            display: none;
+        }
+
+        #detail-items [detail-item-index=0] {
+            display: block;
+        }
+
+        .detail-iframe {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .entity-list .entity-list-item {
+            max-width: none;
+        }
+
+        .box {
+            font-size: 1.25rem;
+            /* 20 */
+            background-color: #c8dadf;
+            position: relative;
+            padding: 100px 20px;
+            text-align: center;
+        }
+
+        .box.has-advanced-upload {
+            outline: 2px dashed #92b0b3;
+            outline-offset: -10px;
+
+            -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
+            transition: outline-offset .15s ease-in-out, background-color .15s linear;
+        }
+
+        .box.is-dragover {
+            outline-offset: -20px;
+            outline-color: #c8dadf;
+            background-color: #fff;
+        }
+
+        .box__dragndrop,
+        .box__icon {
+            display: none;
+        }
+
+        .box.has-advanced-upload .box__dragndrop {
+            display: inline;
+        }
+
+        .box.has-advanced-upload .box__icon {
+            width: 100%;
+            height: 80px;
+            fill: #92b0b3;
+            display: block;
+            margin-bottom: 40px;
+        }
+
+        .box.is-uploading .box__input,
+        .box.is-success .box__input,
+        .box.is-error .box__input {
+            visibility: hidden;
+        }
+
+        .box__uploading,
+        .box__success,
+        .box__error {
+            display: none;
+        }
+
+        .box.is-uploading .box__uploading,
+        .box.is-success .box__success,
+        .box.is-error .box__error {
+            display: block;
+            position: absolute;
+            top: 50%;
+            right: 0;
+            left: 0;
+
+            -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+        }
+
+        .box__uploading {
+            font-style: italic;
+        }
+
+        .box__success {
+            -webkit-animation: appear-from-inside .25s ease-in-out;
+            animation: appear-from-inside .25s ease-in-out;
+        }
+
+        @-webkit-keyframes appear-from-inside {
+            from {
+                -webkit-transform: translateY(-50%) scale(0);
+            }
+
+            75% {
+                -webkit-transform: translateY(-50%) scale(1.1);
+            }
+
+            to {
+                -webkit-transform: translateY(-50%) scale(1);
+            }
+        }
+
+        @keyframes appear-from-inside {
+            from {
+                transform: translateY(-50%) scale(0);
+            }
+
+            75% {
+                transform: translateY(-50%) scale(1.1);
+            }
+
+            to {
+                transform: translateY(-50%) scale(1);
+            }
+        }
+
+        .box__restart {
+            font-weight: 700;
+        }
+
+        .box__restart:focus,
+        .box__restart:hover {
+            color: #39bfd3;
+        }
+
+        .js .box__file {
+            width: 0.1px;
+            height: 0.1px;
+            opacity: 0;
+            overflow: hidden;
+            position: absolute;
+            z-index: -1;
+        }
+
+        .js .box__file+label {
+            max-width: 80%;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            cursor: pointer;
+            display: inline-block;
+            overflow: hidden;
+        }
+
+        .js .box__file+label:hover strong,
+        .box__file:focus+label strong,
+        .box__file.has-focus+label strong {
+            color: #39bfd3;
+        }
+
+        .js .box__file:focus+label,
+        .js .box__file.has-focus+label {
+            outline: 1px dotted #000;
+            outline: -webkit-focus-ring-color auto 5px;
+        }
+
+        .js .box__file+label * {
+            /* pointer-events: none; */
+            /* in case of FastClick lib use */
+        }
+
+        .no-js .box__file+label {
+            display: none;
+        }
+
+        .no-js .box__button {
+            display: block;
+        }
+
+        .box__button {
+            font-weight: 700;
+            color: #e5edf1;
+            background-color: #39bfd3;
+            display: none;
+            padding: 8px 16px;
+            margin: 40px auto 0;
+        }
+
+        .box__button:hover,
+        .box__button:focus {
+            background-color: #0f3c4b;
+        }
+    </style>
+</head>
+
+<body class="color-bg-light-neutral-high">
+    <div class="bg-triangles body-overlay"></div>
+    <div class="bg-overlay-color body-overlay"></div>
+
+    <div class="wrapper">
+        <div class="inner-content">
+            <div class="container-fluid height100">
+                <div class="row height100">
+                    <div class="col-xs-10 color-bg-light-vivid-mid nopadding height100">
+                        <div>
+                            <div class="entity-list" id="master-items">
+                                <div class="entity-list-item">
+                                    <div class="item-icon">
+                                        <span class="glyph glyph-home"></span>
+                                    </div>
+                                    <div class="item-content-primary">
+                                        <div class="content-text-primary">Home</div>
+                                        <!-- <div class="content-text-secondary">Microsoft Corporation</div> -->
+                                    </div>
+                                </div>
+                                <div class="entity-list-item">
+                                    <div class="item-icon">
+                                        <span class="glyph glyph-add"></span>
+                                    </div>
+                                    <div class="item-content-primary">
+                                        <div class="content-text-primary">Create mindmap</div>
+                                        <div class="content-text-secondary"></div>
+                                    </div>
+                                </div>
+                                <div class="entity-list-item">
+                                    <div class="item-icon">
+                                        <span class="glyph glyph-folder-horizontal-open"></span>
+                                    </div>
+                                    <div class="item-content-primary">
+                                        <div class="content-text-primary">Mindmaps</div>
+                                        <div class="content-text-secondary">Collection of saved mindmaps</div>
+                                    </div>
+                                </div>
+
+                                <div class="entity-list-item">
+                                    <div class="item-icon">
+                                        <span class="glyph glyph-folder-horizontal-open"></span>
+                                    </div>
+                                    <div class="item-content-primary">
+                                        <div class="content-text-primary">Import mindmap</div>
+                                        <div class="content-text-secondary">Open a ".onmm" mindmap file from your
+                                            device.</div>
+                                    </div>
+                                </div>
+
+                                <div class="entity-list-item">
+                                    <div class="item-icon">
+                                        <span class="glyph glyph-globe"></span>
+                                    </div>
+                                    <div class="item-content-primary">
+                                        <div class="content-text-primary">ESStudio</div>
+                                        <!-- <div class="content-text-secondary">Microsoft Corporation</div> -->
+                                    </div>
+                                </div>
+
+                                <div class="entity-list-item">
+                                    <div class="item-icon">
+                                        <span class="glyph glyph-info"></span>
+                                    </div>
+                                    <div class="item-content-primary">
+                                        <div class="content-text-primary">About</div>
+                                        <!-- <div class="content-text-secondary">Microsoft Corporation</div> -->
+                                    </div>
+                                </div>
+
+                                <div class="entity-list-item">
+                                    <div class="item-icon">
+                                        <span class="glyph glyph-contact-info"></span>
+                                    </div>
+                                    <div class="item-content-primary">
+                                        <div class="content-text-primary">Contact</div>
+                                        <!-- <div class="content-text-secondary">Microsoft Corporation</div> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-14 color-bg-light-vivid-high nopadding height100">
+                        <div id="detail-items">
+                            <section detail-item-index="0" class="padded-top">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-xs-24">
+
+                                            <h1>A modern mindmapper</h1>
+
+                                            <p>Built with electron.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <section detail-item-index="1" class="padded-top">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-xs-24">
+                                            <h2>Create a new mindmap</h2>
+                                            <form id="new-room" method="GET">
+                                                <div class="form-group">
+                                                    <label for="mindmap-name">Name</label>
+                                                    <input id="name" name="name" type="text" class="form-control"
+                                                        id="mindmap-name"
+                                                        placeholder="Enter the name of your new mindmap">
+                                                </div>
+                                                <!-- <div class="form-group">
+                                                <label for="exampleInputEmail1">Email address</label>
+                                                <input type="email" class="form-control" id="exampleInputEmail1"
+                                                    placeholder="Enter email">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="exampleInputPassword1">Password</label>
+                                                <input type="password" class="form-control" id="exampleInputPassword1"
+                                                    placeholder="Password">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="exampleInputFile">File input</label>
+                                                <input type="file" id="exampleInputFile">
+                                                <p class="help-block">Example block-level help text here.</p>
+                                            </div> -->
+
+                                                <!-- <div class="form-group"> -->
+                                                <p class="form-group-label">Public?</p>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" id="public" checked></input>
+                                                        <span>Rest</span>
+                                                    </label>
+                                                </div>
+
+                                                <!-- <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" checked></input>
+                                                        <span>Checked</span>
+                                                    </label>
+                                                </div>
+
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" disabled="true"></input>
+                                                        <span>Disabled</span>
+                                                    </label>
+                                                </div>
+
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" id="foo"></input>
+                                                        <span>Indeterminate</span>
+                                                    </label>
+                                                    <script type="text/javascript">
+                                                        (function () {
+                                                            $("#foo").prop("indeterminate", true);
+                                                        })();
+                                                    </script>
+                                                </div> -->
+                                                <!-- </div> -->
+                                                <!-- 
+                                            <div class="form-group">
+                                                <p class="form-group-label">Radio buttons</p>
+                                                <div class="radio">
+                                                    <label>
+                                                        <input type="radio" name='radio1'>
+                                                        <span>Radio</span>
+                                                    </label>
+                                                </div>
+                                                <div class="radio">
+                                                    <label>
+                                                        <input type="radio" name='radio1' checked="checked">
+                                                        <span>Checked</span>
+                                                    </label>
+                                                </div>
+                                                <div class="radio">
+                                                    <label>
+                                                        <input type="radio" name='radio1' disabled="true">
+                                                        <span>Disabled</span>
+                                                    </label>
+                                                </div>
+                                            </div> -->
+
+                                                <button type="submit" class="btn btn-primary">Create</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </section>
+                            <section detail-item-index="2">
+
+                                <div id="saved-mindviews" class="entity-list entity-list-expandable">
+                                    <div class="entity-list-item">
+                                        <div class="item-icon">
+                                            <span class="glyph glyph-mail"></span>
+                                        </div>
+                                        <div class="item-content-secondary">
+                                            <div class="content-text-primary">25.3 MB</div>
+                                            <div class="content-text-secondary">25/08/2016</div>
+                                        </div>
+                                        <div class="item-content-primary">
+                                            <div class="content-text-primary">Mail and Calendar</div>
+                                            <div class="content-text-secondary">Microsoft Corporation</div>
+                                            <div class="progress">
+                                                <div class="progress-bar" role="progressbar" aria-valuenow="60"
+                                                    aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                                                    <span class="sr-only">60%</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="item-content-expanded">
+                                            <button class="btn btn-default" disabled="disabled">Uninstall</button>
+                                            <button class="btn btn-default">Move</button>
+                                        </div>
+                                    </div>
+                                    <div class="entity-list-item">
+                                        <div class="item-icon">
+                                            <span class="glyph glyph-camera"></span>
+                                        </div>
+                                        <div class="item-content-secondary">
+                                            <div class="content-text-primary">44.5 MB</div>
+                                            <div class="content-text-secondary">25/08/2016</div>
+                                        </div>
+                                        <div class="item-content-primary">
+                                            <div class="content-text-primary">Camera</div>
+                                            <div class="content-text-secondary">Microsoft Corporation</div>
+                                        </div>
+                                        <div class="item-content-expanded">
+                                            <button class="btn btn-default" disabled="disabled">Uninstall</button>
+                                            <button class="btn btn-default">Move</button>
+                                        </div>
+                                    </div>
+                                    <div class="entity-list-item">
+                                        <div class="item-icon">
+                                            <span class="glyph glyph-report-hacked"></span>
+                                        </div>
+                                        <div class="item-content-secondary">
+                                            <div class="content-text-primary">Unavailable</div>
+                                            <div class="content-text-secondary">25/08/2016</div>
+                                        </div>
+                                        <div class="item-content-primary">
+                                            <div class="content-text-primary">Defender</div>
+                                            <div class="content-text-secondary">Microsoft Corporation</div>
+                                        </div>
+                                        <div class="item-content-expanded">
+                                            <button class="btn btn-default" disabled="disabled">Uninstall</button>
+                                            <button class="btn btn-default" disabled="disabled">Move</button>
+                                        </div>
+                                    </div>
+                                    <div class="entity-list-item">
+                                        <div class="item-icon">
+                                            <img src="" />
+                                        </div>
+                                        <div class="item-content-secondary">
+                                            <div class="content-text-primary">Unavailable</div>
+                                            <div class="content-text-secondary">25/08/2016</div>
+                                        </div>
+                                        <div class="item-content-primary">
+                                            <div class="content-text-primary">App</div>
+                                            <div class="content-text-secondary">Microsoft Corporation</div>
+                                        </div>
+                                        <div class="item-content-expanded">
+                                            <a href="#" class="btn btn-link btn-block">Advanced options</a>
+                                            <button class="btn btn-default">Uninstall</button>
+                                            <button class="btn btn-default">Move</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <section detail-item-index="3">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-xs-24 padded-top">
+                                            <h2>Import</h2>
+                                            <div class="padded-top">
+
+                                                <form method="post"
+                                                    action="https://css-tricks.com/examples/DragAndDropFileUploading//?"
+                                                    enctype="multipart/form-data" novalidate=""
+                                                    class="box has-advanced-upload">
+
+                                                    <div class="box__input">
+                                                        <svg class="box__icon" xmlns="http://www.w3.org/2000/svg"
+                                                            width="50" height="43" viewBox="0 0 50 43">
+                                                            <path
+                                                                d="M48.4 26.5c-.9 0-1.7.7-1.7 1.7v11.6h-43.3v-11.6c0-.9-.7-1.7-1.7-1.7s-1.7.7-1.7 1.7v13.2c0 .9.7 1.7 1.7 1.7h46.7c.9 0 1.7-.7 1.7-1.7v-13.2c0-1-.7-1.7-1.7-1.7zm-24.5 6.1c.3.3.8.5 1.2.5.4 0 .9-.2 1.2-.5l10-11.6c.7-.7.7-1.7 0-2.4s-1.7-.7-2.4 0l-7.1 8.3v-25.3c0-.9-.7-1.7-1.7-1.7s-1.7.7-1.7 1.7v25.3l-7.1-8.3c-.7-.7-1.7-.7-2.4 0s-.7 1.7 0 2.4l10 11.6z">
+                                                            </path>
+                                                        </svg>
+                                                        <input type="file" name="files[]" id="file" class="box__file"
+                                                            data-multiple-caption="{count} files selected" multiple="">
+                                                        <label for="file"><strong>Choose a file</strong><span
+                                                                class="box__dragndrop"> or drag it here</span>.</label>
+                                                        <button type="submit" class="box__button">Upload</button>
+                                                    </div>
+
+
+                                                    <div class="box__uploading">Uploading…</div>
+                                                    <div class="box__success">Done! <a href="" class="box__restart"
+                                                            role="button">Upload more?</a></div>
+                                                    <div class="box__error">Error! <span></span>. <a href=""
+                                                            class="box__restart" role="button">Try again!</a></div>
+                                                    <input type="hidden" name="ajax" value="1">
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <section detail-item-index="4">
+                                <iframe frameborder="0" class="detail-iframe"
+                                    data-iframe-load="https://esstudio.site"></iframe>
+                            </section>
+
+                            <section detail-item-index="5">
+                                <iframe frameborder="0" class="detail-iframe"
+                                    data-iframe-load="https://esstudio.site/about"></iframe>
+                            </section>
+
+                            <section detail-item-index="6">
+                                <iframe frameborder="0" class="detail-iframe"
+                                    data-iframe-load="https://esstudio.site/contact"></iframe>
+                            </section>
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="bundle/home.bundle.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,87 @@
+html
+{
+}
+body
+{
+    background-color: #FFFFFF;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+
+    -webkit-touch-callout: none; /* iOS Safari */
+        -webkit-user-select: none; /* Safari */
+            -khtml-user-select: none; /* Konqueror HTML */
+                -moz-user-select: none; /* Firefox */
+                    -ms-user-select: none; /* Internet Explorer/Edge */
+                        user-select: none; /* Non-prefixed version, currently
+                                            supported by Chrome and Opera */
+}
+
+
+#mainh
+{
+    position: absolute;
+    margin: 0 auto;
+    width: 100vw;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: #420039;
+    text-align: center;
+    font-weight: bold;
+    font-size: 2.4em;
+    background-color: transparent;
+    outline: none;
+    border: none;
+}
+#mainh:focus
+{
+    outline: none;
+}
+#mainh:active
+{
+    outline: none;
+}
+#field
+{
+}
+
+#menubar
+{
+    background-color: #12355b;
+}
+
+#menubar button:hover
+{
+    background-color: #420039;
+}
+#menubar button:focus
+{
+    outline: none;
+}
+#menubar button:active
+{
+    outline: none;
+}
+#menubar #spawn_elem_btn0
+{
+    background-image: url(../../img/icons/plus_large.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+#menubar #spawn_elem_btn1
+{
+    background-image: url(../../img/icons/plus_med.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+#menubar #spawn_elem_btn2
+{
+    background-image: url(../../img/icons/plus_small.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+#menubar .glyph {
+    color: #fff;
+}

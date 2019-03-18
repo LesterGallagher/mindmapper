@@ -1,0 +1,53 @@
+{
+    "static":
+    {
+
+    },
+    "elems":[
+        {
+            "id":0,
+            "type":0,
+            "leftpos":100,
+            "toppos":10,
+            "font-size":100,
+            "background-color":[120,124,96],
+            "boxshadow-color-offset":[20,0,0],
+            "connected_elems":[
+            {
+                "lineid":1,
+                "elemid":2
+            },
+            {
+                "lineid":2,
+                "elemid":1
+            }
+            ] 
+        }
+    ],
+    "lines":[
+        {
+            "id":0,
+            "stroke-width":2,
+            "stroke-color":[20,182,39]
+        },
+        {
+            "id":1,
+            "stroke-width":2,
+            "stroke-color":[20,182,39]
+        },
+        {
+            "id":2,
+            "stroke-width":2,
+            "stroke-color":[20,182,39]
+        }
+    ]
+
+
+
+
+
+
+
+
+
+}

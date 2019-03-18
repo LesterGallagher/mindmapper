@@ -1,0 +1,53 @@
+{
+  "static": {
+    "name": "Name"
+  },
+  "elems": [
+    {
+      "id": 0,
+      "type": 0,
+      "leftpos": "257px",
+      "toppos": "326px",
+      "connected_elems": [
+        {
+          "lineid": "0",
+          "elemid": "1"
+        }
+      ],
+      "font-size": "25.6px",
+      "background-color": [
+        138,
+        162,
+        158
+      ],
+      "content": "new title"
+    },
+    {
+      "id": 1,
+      "type": 0,
+      "leftpos": "108px",
+      "toppos": "122px",
+      "connected_elems": [
+        {
+          "lineid": "0",
+          "elemid": "0"
+        }
+      ],
+      "font-size": "25.6px",
+      "background-color": [
+        138,
+        162,
+        158
+      ],
+      "content": "new title"
+    }
+  ],
+  "lines": [
+    {
+      "id": "0",
+      "stroke-width": "5px",
+      "elem1": 0,
+      "elem2": 1
+    }
+  ]
+}
