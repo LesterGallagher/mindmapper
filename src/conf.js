@@ -1,11 +1,12 @@
 
-const { room, ispublic, name } = decodeQuery(null, true);
+const { room, ispublic, name, id } = decodeQuery(null, true);
 
 module.exports = {
     apiUrl: 'https://api.esstudio.site/api/mindviewer-web',
     room,
     ispublic, 
     name,
+    id
 }
 
 function encodeIntoQuery(data, discardEmptyOrNull) {

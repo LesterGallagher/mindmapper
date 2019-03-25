@@ -100,7 +100,11 @@ function updateMindmaps() {
             $savedMindviews.append($entityItem);
     
             $entityItem.find('.btn-open').on('click', function () {
-                window.location.href = window.location.origin + '/mindmapper.html?ispublic=' + (mm.type === 'api_bin') + '&id=' + mm.static.id;
+                if (mm.type === 'api_bin') {
+                    window.location.href = window.location.origin + '/mindmapper.html?ispublic=true&id=' + mm.static.id + '&room=' + mm.room;
+                } else {
+                    window.location.href = window.location.origin + '/mindmapper.html?ispublic=false&id=' + mm.static.id;
+                }
             });
     
             $entityItem.find('.btn-download').on('click', function () {

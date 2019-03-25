@@ -50,8 +50,11 @@ const getMindmaps = () => {
             resolve(cachedMindmaps);
         } else {
             const set = JSON.parse(localStorage.getItem(mindmapsLocalstorageName) || '{}') || {};
-            let mindmapItemsPromises = Object.keys(set).map(function (mindmapUrl) {
-                return Promise.resolve();
+            let mindmapItemsPromises = Object.keys(set).map(function (id) {
+                return indexedDBStorage.get(indexDBItemPrefix + id)
+                    .then(mm => {
+                        set[id] = mm;
+                    });
             });
             Promise.all(mindmapItemsPromises).then(function () {
                 cachedMindmaps = set;

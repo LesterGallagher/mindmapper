@@ -23,18 +23,36 @@ const refreshTimeSince = () => {
 setInterval(refreshTimeSince, 5000);
 
 if (conf.ispublic === 'false') {
+    exports.dataId = conf.id || Math.random().toString(36);
+
+    if (conf.id) {
+        storage.getMindmaps().then(maps => {
+            const data = maps[conf.id];
+            if (!data) {
+                $('#fullscreen-loader').fadeOut();
+            } else {
+                stateLoader.readData(data);
+            }
+        });
+        $('#fullscreen-loader').fadeOut();
+    } else {
+        document.getElementById('mainh').value = conf.name;
+        $('#fullscreen-loader').fadeOut();
+    }
+
     $saveBtn.add($saveMenuBtn).on('click', () => {
         // saveOnDevice();
         const state = stateSave.compileState(exports.dataId);
         state.type = 'app_storage'
-        storage.putMindmap(state);
-        interactivity.setSaved();
-        timeSinceLastSave = new Date();
-        refreshTimeSince();
+        storage.putMindmap(state).then(() => {
+            interactivity.setSaved();
+            timeSinceLastSave = new Date();
+            refreshTimeSince();
+            if (!conf.id) {
+                window.location.href = window.location.origin + '/mindmapper.html?ispublic=false&id=' + exports.dataId;
+            }
+        });
     });
-    $('#fullscreen-loader').fadeOut();
-
-    exports.dataId = Math.random().toString(36);
 } else {
 
     $.get("https://api.myjson.com/bins/" + conf.room, function (data, textStatus, jqXHR) {
@@ -69,7 +87,7 @@ const saveToJsonOnline = exports.saveToJsonOnline = () => {
         type: 'api_bin',
         room: conf.room,
         static: {
-            id: exports.dataId, 
+            id: exports.dataId,
             name: $('#mainh').val(),
             timestamp: Date.now()
         }

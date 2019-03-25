@@ -11,7 +11,7 @@ class StateLoader {
         //if everyting is ok, delete all content on the page.
         interactivity.RemoveAll();
 
-        document.getElementById('mainh').innerHTML = data.static.name;
+        document.getElementById('mainh').value = data.static.name;
         let elems = data.elems;
         let lines = data.lines;
         // console.log(elems);
