@@ -1,7 +1,13 @@
+(function (e, t, n) { var r = e.querySelectorAll("html")[0]; r.className = r.className.replace(/(^|\s)no-js(\s|$)/, "$1js$2") })(document, window, 0);
 
+require('winstrap/dist/css/winstrap.min.css');
+const $ = require('winstrap/dist/js/vendor/jquery.min.js');
+window['jQuery'] = $;
+require('winstrap/dist/js/vendor/bootstrap.min.js');
+require('./css/home.css');
+ 
 const storage = require('./storage');
 const IndexedDBStorage = require('./indexeddb-wrapper.js');
-const $ = require('jquery');
 const { saveAs } = require('file-saver');
 const timeago = require('timeago.js');
 require('./winstrap');
@@ -77,10 +83,10 @@ function updateMindmaps() {
     for (var key in mmaps) {
         (function (key) {
             var mm = mmaps[key];
-    
+
             var $entityItem = $('<div class="entity-list-item">\
                 <div class="item-icon">\
-                    <img alt="icon" height="20" src="img/mindmap-white.svg">\
+                    <img alt="icon" height="20" src="public/img/mindmap-white.svg">\
                 </div>\
                 <div class="item-content-secondary">\
                     <div class="content-text-primary">' + timeago().format(new Date(mm.static.timestamp)) + '</div>\
@@ -96,9 +102,9 @@ function updateMindmaps() {
                     <button class="btn btn-default btn-">Delete</button>\
                 </div>\
             </div>');
-    
+
             $savedMindviews.append($entityItem);
-    
+
             $entityItem.find('.btn-open').on('click', function () {
                 if (mm.type === 'api_bin') {
                     window.location.href = window.location.origin + '/mindmapper.html?ispublic=true&id=' + mm.static.id + '&room=' + mm.room;
@@ -106,7 +112,7 @@ function updateMindmaps() {
                     window.location.href = window.location.origin + '/mindmapper.html?ispublic=false&id=' + mm.static.id;
                 }
             });
-    
+
             $entityItem.find('.btn-download').on('click', function () {
                 if (mm.type === 'api_bin') {
                     $.get("https://api.myjson.com/bins/" + mm.room, function (data, textStatus, jqXHR) {
@@ -115,12 +121,12 @@ function updateMindmaps() {
                 } else {
                     storage.getMindmaps().then(mindmaps => {
                         const storedMM = mindmaps[mm.static.id];
-        
+
                         saveAs(new Blob([JSON.stringify(storedMM)]), storedMM.static.name + '-mindmap.onmm');
                     });
                 }
             });
-    
+
             // if (mm.type === 'api_bin') {
             //     $.get("https://api.myjson.com/bins/" + conf.room, function (data, textStatus, jqXHR) {
             //         $entityItem.find('.item-content-secondary .content-text-secondary')
@@ -128,7 +134,7 @@ function updateMindmaps() {
             //     });
             // } else {
             //     storage.get(mm.static.id).then(function(mm) {
-    
+
             //     });
             // }
         })(key);
@@ -136,8 +142,8 @@ function updateMindmaps() {
 
     if ($savedMindviews.children().length === 0) {
         $('<div class="container-fluid padded-top"><h2>No saved mindmaps.</h2><p>There\'s nothing here...</p></div>').appendTo($savedMindviews);
-    } 
-    
+    }
+
 }
 
 updateMindmaps();
@@ -220,7 +226,7 @@ $form.on('submit', function (e) {
                 // Log the error, show an alert, whatever works for you
             }
         });
-    } 
+    }
 });
 
 var $input = $form.find('input[type="file"]'),
@@ -268,7 +274,7 @@ function showMMInfo(files) {
                 success: function (data, textStatus, jqXHR) {
                     updateMindmaps();
                     alert('Stored online');
-            }
+                }
             });
         } else {
             storage.putMindmap(data).then(() => {

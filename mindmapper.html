@@ -9,17 +9,14 @@
     <meta name="description" content="A HTML5 mindmapper">
     <meta name="author" content="Sem Postma">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/winstrap/0.5.12/css/winstrap.min.css"
-        integrity="sha256-thANYRzqHaPvmVssJquXIONTgdXuJ1sJZ06x7PHNVcM=" crossorigin="anonymous" />
-
-    <link rel="stylesheet" type="text/css" href="bundle/style.bundle.css">
+    <link rel="stylesheet" href="bundle/vendor.bundle.css">
+    <link rel="stylesheet" type="text/css" href="bundle/main.bundle.css">
 
     <script>
         var theme = (window.localStorage && window.localStorage.theme) || 'dark';
         document.write('<link id="mmwindow-style" rel="stylesheet" href="styles/mmelemsstyle-' + theme + '.css">')
         document.write('<link id="mmelem-style" rel="stylesheet" href="styles/mmwindow-' + theme + '.css">')
     </script>
-
 </head>
 
 <body>
@@ -28,7 +25,7 @@
 
     <div id="wrapper">
         <div id="menubar">
-            
+
             <button id="spawn_elem_btn0" type="button">
                 <span class="glyph glyph-add" aria-hidden="true"></span>
             </button>
@@ -43,7 +40,7 @@
             </button>
             <button id="btn-back-home" type="button">
                 <span class="glyph glyph-home" aria-hidden="true"></span>
-                </button>
+            </button>
             <button id="choose-color-theme" type="button">
                 <div id="choose-color-theme-options"></div>
             </button>
@@ -68,8 +65,7 @@
         <div id="messages"></div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.35.3/es6-shim.min.js"
-        integrity="sha256-THlgZSjqt7idNSdnUvGypTuXB5C4hV9kSuPYrbiq19o=" crossorigin="anonymous"></script>
+    <script src="bundle/vendor.bundle.js"></script>
     <script src="bundle/main.bundle.js"></script>
 </body>
 

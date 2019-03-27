@@ -34,7 +34,6 @@
 {
     
 }
-
 html
 {
     background-color: lightskyblue;
@@ -116,7 +115,7 @@ html
     top: 0; left: 0; bottom: 0; right: 0;
     z-index: 100000;
 
-    background: url('../img/loader.svg') rgba(0, 0, 0, .8) no-repeat center center;
+    background: url(data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJMMyIgDQogICAgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiANCiAgICB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCAxMDAgMTAwIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCAwIDAiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KICAgIDxjaXJjbGUgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjQiIGN4PSI1MCIgY3k9IjUwIiByPSI0NCIgc3R5bGU9Im9wYWNpdHk6MC41OyI+PC9jaXJjbGU+DQogICAgPGNpcmNsZSBmaWxsPSIjZmZmIiBzdHJva2U9IiNlNzRjM2MiIHN0cm9rZS13aWR0aD0iMyIgY3g9IjgiIGN5PSI1NCIgcj0iNiIgdHJhbnNmb3JtPSJyb3RhdGUoNzUgNTAgNDguODMzMykiPg0KICAgICAgICA8YW5pbWF0ZVRyYW5zZm9ybSBhdHRyaWJ1dGVOYW1lPSJ0cmFuc2Zvcm0iIGR1cj0iMnMiIHR5cGU9InJvdGF0ZSIgZnJvbT0iMCA1MCA0OCIgdG89IjM2MCA1MCA1MiIgcmVwZWF0Q291bnQ9ImluZGVmaW5pdGUiPjwvYW5pbWF0ZVRyYW5zZm9ybT4NCiAgICA8L2NpcmNsZT4NCjwvc3ZnPg==) rgba(0, 0, 0, .8) no-repeat center center;
     background-size: 200px 200px;
 }
 
@@ -150,6 +149,8 @@ html
 
 .btn1 {
 	background-color:#44c767;
+	-moz-border-radius:28px;
+	-webkit-border-radius:28px;
 	border-radius:28px;
 	border:1px solid #18ab29;
 	display:inline-block;
@@ -197,6 +198,8 @@ html
 
 #messages .message {
     background-color:#44c767;
+	-moz-border-radius:28px;
+	-webkit-border-radius:28px;
 	border-radius:28px;
     border:1px solid #18ab29;
     display: block;
@@ -210,19 +213,9 @@ html
 	text-decoration:none;
     text-shadow:0px 1px 0px #2f6627;
     height: 34px;    
-    -webkit-animation: slowChatHide 400ms ease 6s forwards;    
-            animation: slowChatHide 400ms ease 6s forwards;
+    animation: slowChatHide 400ms ease 6s forwards;
     overflow: hidden;
     margin-bottom: 5px;
-}
-
-@-webkit-keyframes slowChatHide {
-    from {
-
-    } to {
-        height: 0;
-        border: none;
-    }
 }
 
 @keyframes slowChatHide {
@@ -259,4 +252,5 @@ html
     vertical-align: middle;
     line-height: 20px;
 }
+
 
