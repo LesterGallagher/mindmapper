@@ -1,4 +1,4 @@
-import * as $ from 'jquery';
+const $ = require('jquery');
 
 const $chooseColorTheme = $('#choose-color-theme');
 const $chooseColorOptions = $('#choose-color-theme-options');
