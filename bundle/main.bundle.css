@@ -34,8 +34,120 @@
 {
     
 }
-html
+.mmelem 
 {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    margin: 0px;
+    padding: 20px 4px 4px 4px;
+}
+.mmelem .mmclose
+{
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 16px;
+    height: 16px;
+}
+
+.mmmain
+{
+    z-index: 2;
+}
+.mmmain input
+{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    font-size: 1.6em;
+    width: 12em;
+
+}
+.mmheader
+{
+    z-index: 1;
+}
+.mmheader input
+{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 1em;
+}
+
+.mmelem .mm_title
+{
+    border: none;
+    text-align: center;
+    background-color: transparent;
+    display: block;
+}
+.genline
+{
+    fill:none;
+}
+.pregenline
+{
+    fill:none;
+}
+.genline:hover
+{
+    stroke-width: 8!important;
+    opacity: 0.5;
+    cursor: crosshair;
+}
+html {}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+
+    user-select: none;
+}
+
+
+#mainh {
+    position: absolute;
+    margin: 0 auto;
+    width: 100vw;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-align: center;
+    font-weight: bold;
+    font-size: 2.4em;
+    background-color: transparent;
+    outline: none;
+    border: none;
+}
+
+#mainh:focus {
+    outline: none;
+}
+
+#mainh:active {
+    outline: none;
+}
+
+#field {}
+
+#menubar {
+}
+
+#menubar button:hover {
+}
+
+#menubar button:focus {
+    outline: none;
+}
+
+#menubar button:active {
+    outline: none;
+}
+
+#menubar .glyph {
+    color: #fff;
+}
+html {
     background-color: lightskyblue;
 }
 
@@ -54,8 +166,7 @@ html
 }
 
 
-#menubar
-{
+#menubar {
     height: 100vh;
     width: 60px;
     z-index: 1;
@@ -65,8 +176,8 @@ html
     padding-top: 60px;
     z-index: 10;
 }
-#menubar button
-{
+
+#menubar button {
     width: 50px;
     height: 50px;
     background-color: transparent;
@@ -89,7 +200,7 @@ html
     top: 0;
     height: 60px;
     left: 0;
-    background-color: rgba(255,255,255, 0.01);
+    background-color: rgba(255, 255, 255, 0.01);
 }
 
 #menubar #choose-color-theme button.option {
@@ -103,8 +214,7 @@ html
     opacity: .5;
 }
 
-#wrapper h1
-{
+#wrapper h1 {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     color: dimgrey;
 }
@@ -112,7 +222,10 @@ html
 
 #fullscreen-loader {
     position: fixed;
-    top: 0; left: 0; bottom: 0; right: 0;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
     z-index: 100000;
 
     background: url(data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJMMyIgDQogICAgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiANCiAgICB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCAxMDAgMTAwIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCAwIDAiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KICAgIDxjaXJjbGUgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjQiIGN4PSI1MCIgY3k9IjUwIiByPSI0NCIgc3R5bGU9Im9wYWNpdHk6MC41OyI+PC9jaXJjbGU+DQogICAgPGNpcmNsZSBmaWxsPSIjZmZmIiBzdHJva2U9IiNlNzRjM2MiIHN0cm9rZS13aWR0aD0iMyIgY3g9IjgiIGN5PSI1NCIgcj0iNiIgdHJhbnNmb3JtPSJyb3RhdGUoNzUgNTAgNDguODMzMykiPg0KICAgICAgICA8YW5pbWF0ZVRyYW5zZm9ybSBhdHRyaWJ1dGVOYW1lPSJ0cmFuc2Zvcm0iIGR1cj0iMnMiIHR5cGU9InJvdGF0ZSIgZnJvbT0iMCA1MCA0OCIgdG89IjM2MCA1MCA1MiIgcmVwZWF0Q291bnQ9ImluZGVmaW5pdGUiPjwvYW5pbWF0ZVRyYW5zZm9ybT4NCiAgICA8L2NpcmNsZT4NCjwvc3ZnPg==) rgba(0, 0, 0, .8) no-repeat center center;
@@ -148,27 +261,29 @@ html
 
 
 .btn1 {
-	background-color:#44c767;
-	-moz-border-radius:28px;
-	-webkit-border-radius:28px;
-	border-radius:28px;
-	border:1px solid #18ab29;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:Arial;
-	font-size:17px;
-	padding:16px 31px;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #2f6627;
+    background-color: #44c767;
+    -moz-border-radius: 28px;
+    -webkit-border-radius: 28px;
+    border-radius: 28px;
+    border: 1px solid #18ab29;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: Arial;
+    font-size: 17px;
+    padding: 16px 31px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #2f6627;
 }
+
 .btn1:hover {
-    background-color:#5cbf2a;
+    background-color: #5cbf2a;
     opacity: .7;
 }
+
 .btn1:active {
-	position:relative;
-	top:1px;
+    position: relative;
+    top: 1px;
 }
 
 #save-mm {
@@ -176,10 +291,9 @@ html
     right: 20px;
     top: 20px;
     padding: 4px 8px;
-}        
+}
 
-#svg_wrapper
-{
+#svg_wrapper {
     padding: 0;
     margin: 0;
     position: absolute;
@@ -197,38 +311,38 @@ html
 }
 
 #messages .message {
-    background-color:#44c767;
-	-moz-border-radius:28px;
-	-webkit-border-radius:28px;
-	border-radius:28px;
-    border:1px solid #18ab29;
+    background-color: #44c767;
+    -moz-border-radius: 28px;
+    -webkit-border-radius: 28px;
+    border-radius: 28px;
+    border: 1px solid #18ab29;
     display: block;
     float: right;
     clear: both;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:Arial;
-    font-size:15px;
-	padding: 0px 15px;
-	text-decoration:none;
-    text-shadow:0px 1px 0px #2f6627;
-    height: 34px;    
+    cursor: pointer;
+    color: #ffffff;
+    font-family: Arial;
+    font-size: 15px;
+    padding: 0px 15px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #2f6627;
+    height: 34px;
     animation: slowChatHide 400ms ease 6s forwards;
     overflow: hidden;
     margin-bottom: 5px;
 }
 
 @keyframes slowChatHide {
-    from {
+    from {}
 
-    } to {
+    to {
         height: 0;
         border: none;
     }
 }
 
 #menubar button {
-    background-image: none!important;
+    background-image: none !important;
 }
 
 #menubar .glyph {
@@ -253,4 +367,17 @@ html
     line-height: 20px;
 }
 
-
+#mainh
+{
+    position: absolute;
+    margin: 0 auto;
+    width: 100vw;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: #999;
+    text-align: center;
+    font-weight: bold;
+    font-size: 2.4em;
+    background-color: transparent;
+    outline: none;
+    border: none;
+}

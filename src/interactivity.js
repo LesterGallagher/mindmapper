@@ -1,4 +1,3 @@
-let currdrag;
 const core = require('./core.js');
 const $ = require('jquery');
 const { EventEmitter } = require('events');
@@ -86,7 +85,7 @@ exports.CreateElement = (state) => {
         $(loadedelem).children('textarea').css('width', width);
         $(loadedelem).children('textarea').css('height', height);
         $(loadedelem).children('textarea').val(content);
-
+        $(loadedelem).children('textarea').on('click', e => e.stopPropagation());
     }
     else {
         $(loadedelem).children('input').css('font-size', fontsize);
@@ -144,10 +143,10 @@ exports.CreateLine = (strokewidth, strokecolor, elem1, elem2, key) => {
         $(line).css('stroke-width', (strokewidth + amount) + "px");
     };
     $(line).mouseenter(() => {
-        line.addEventListener('mousewheel', line.ChangeWidth);
+        // line.addEventListener('mousewheel', line.ChangeWidth);
     });
     $(line).mouseleave(() => {
-        line.removeEventListener('mousewheel', line.ChangeWidth, false);
+        // line.removeEventListener('mousewheel', line.ChangeWidth, false);
     });
     $(line).click(() => {
         RemoveLine(line, true);
@@ -293,7 +292,8 @@ $(document).ready(() => {
 function RemoveActiveLine() {
     window.currdrag['diddrag'] = false;
     var line = window.currdrag['line'];
-    RemoveLine(line);
+    // RemoveLine(line);
+    $(line).remove();
     window.currdrag = undefined;
 };
 /**
@@ -348,6 +348,7 @@ function CreateNewElement(type, key, emit = false) {
     newelem['jqeurydata'] = elem;
 
     $(elem).attr('data-key', key);
+    $(elem).find('textarea').on('click', e => e.stopPropagation());
     globalelems.push(elem);
     globalelemnsHashed[key] = elem;
 
@@ -365,7 +366,7 @@ function CreateNewElement(type, key, emit = false) {
     elem['mmdata'] = {
         name: "newelem",
         connected_elems: [],
-        containselem: function (item) {
+        containsElem: function (item) {
             for (let i = 0; i < elem['mmdata'].connected_elems.length; i++) {
                 if (elem['mmdata'].connected_elems[i].elem == item)
                     return true;
@@ -388,21 +389,23 @@ function CreateNewElement(type, key, emit = false) {
         if (window.currdrag !== undefined) {
 
             //did we drop the line on the same element as we started from. in that case remove the line;
-            let currdrag = window.currdrag;
+            window.currdrag;
 
             if (window.currdrag == elem) {
-                RemoveActiveLine();
-                $(window).mouseup();
-                return;
-            }
-
-            if (window.currdrag.mmdata.containselem(elem) || elem.mmdata.containselem(window.currdrag)) {
+                console.log('dragged a line to itself');
                 $(window).mouseup();
                 RemoveActiveLine();
                 return;
             }
 
-            let thisline = currdrag['line'];
+            if (window.currdrag.mmdata.containsElem(elem) || elem.mmdata.containsElem(window.currdrag)) {
+                console.log('already dragged a line between these nodes');
+                $(window).mouseup();
+                RemoveActiveLine();
+                return;
+            }
+
+            let thisline = window.currdrag['line'];
             thisline.setAttribute('class', "genline");
             let thispos = core.GetMiddleOfElement(elem);
 
@@ -410,9 +413,9 @@ function CreateNewElement(type, key, emit = false) {
             thisline.setAttribute('d', SetPathData(thisline, 'y2', thispos.y, 0, 0));
 
             //set mmdata
-            thisline['connected_elems'] = { elem1: elem, elem2: currdrag };
-            currdrag.mmdata.connected_elems.push({ elem: elem, line: thisline });
-            elem.mmdata.connected_elems.push({ elem: currdrag, line: currdrag['line'] });
+            thisline['connected_elems'] = { elem1: elem, elem2: window.currdrag };
+            window.currdrag.mmdata.connected_elems.push({ elem: elem, line: thisline });
+            elem.mmdata.connected_elems.push({ elem: window.currdrag, line: window.currdrag['line'] });
 
             window.currdrag.mmdata.connected_elems.forEach((item) => {
                 window.currdrag.UpdateConnectedLines(item);
@@ -431,7 +434,7 @@ function CreateNewElement(type, key, emit = false) {
                 strokewidth: $(thisline).css('strokeWidth'),
                 strokecolor: $(thisline).css('strokeColor'),
                 key1: $(elem).attr('data-key'),
-                key2: $(currdrag).attr('data-key'),
+                key2: $(window.currdrag).attr('data-key'),
                 key
             });
 
@@ -540,10 +543,10 @@ function CreateNewElement(type, key, emit = false) {
                 $(line).css('stroke-width', (strokewidth + amount) + "px");
             };
             $(line).mouseenter(() => {
-                line.addEventListener('mousewheel', line.ChangeWidth);
+                // line.addEventListener('mousewheel', line.ChangeWidth);
             });
             $(line).mouseleave(() => {
-                line.removeEventListener('mousewheel', line.ChangeWidth, false);
+                // line.removeEventListener('mousewheel', line.ChangeWidth, false);
             });
             $(line).click(() => {
                 RemoveLine(line, true);
@@ -673,7 +676,7 @@ function CreateNewElement(type, key, emit = false) {
         window.removeEventListener('mousewheel', elem.onElemScroll, false);
     });
     elem.UpdateMMdata = (elem) => {
-        elem.mmdata.connected_elems.push({ elem: currdrag, line: currdrag['line'] });
+        elem.mmdata.connected_elems.push({ elem: window.currdrag, line: window.currdrag['line'] });
     }
 
     const left = +$(elem).css("left").replace("px", "");
@@ -836,7 +839,7 @@ function RemoveLine(line, emit = false) {
     }
 
     globallines.splice(globallines.indexOf(line), 1);
-    delete globallines[$(line).attr('data-key')];
+    delete globallinesHashed[$(line).attr('data-key')];
     $(line).remove();
     console.log('remove line', line);
 

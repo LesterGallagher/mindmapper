@@ -16,6 +16,7 @@ const themes = {
     monokai: '#a6e22e',
     raster: '#c2fcf7',
     russian: '#420039',
+    space: '#55c1cf'
 }
 
 const itemWidth = 60;

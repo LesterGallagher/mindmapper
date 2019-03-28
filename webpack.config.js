@@ -54,6 +54,13 @@ module.exports = (env, argv) => {
                         limit: 10000,
                     },
                 },
+                {
+                    test: /\.mustache$/,
+                    use: {
+                        loader: 'mustache2js-loader',
+                        options: {}
+                    }
+                }
             ]
         },
 

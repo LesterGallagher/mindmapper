@@ -1,7 +1,7 @@
 require('winstrap/dist/css/winstrap.min.css');
-const $ = require('winstrap/dist/js/vendor/jquery.min.js');
+const $ = require('jquery');
 window['jQuery'] = $;
-require('winstrap/dist/js/vendor/bootstrap.min.js');
+require('bootstrap/dist/js/bootstrap');
 require('./css/mindmapper.css');
 
 require('./core');
@@ -13,6 +13,7 @@ const colortheme = require('./color-theme');
 const persistance = require('./persistance');
 const events = require('./events');
 const conf = require('./conf');
+require('./background-settings');
 
 window.onbeforeunload = function() {
     if (conf.ispublic === 'false') {

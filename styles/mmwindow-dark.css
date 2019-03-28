@@ -59,24 +59,6 @@ body
 {
     outline: none;
 }
-#menubar #spawn_elem_btn0
-{
-    background-image: url(../../img/icons/plus_large.png);
-    background-size: contain;
-    background-repeat: no-repeat;
-}
-#menubar #spawn_elem_btn1
-{
-    background-image: url(../../img/icons/plus_med.png);
-    background-size: contain;
-    background-repeat: no-repeat;
-}
-#menubar #spawn_elem_btn2
-{
-    background-image: url(../../img/icons/plus_small.png);
-    background-size: contain;
-    background-repeat: no-repeat;
-}
 
 #menubar .glyph {
     color: #999;

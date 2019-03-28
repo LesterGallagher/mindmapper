@@ -23,6 +23,9 @@ class StateSave {
         var savablelines = [];
         var staticdata = {};
 
+        console.log(elems);
+        console.log(lines);
+
         for (let i = 0; i < elems.length; i++) {
             elems[i]["save_id"] = i;
         }
@@ -37,8 +40,9 @@ class StateSave {
                 // console.log(connected_elems[j]);
                 // console.log(connected_elems[j].elem["save_id"]);
                 // console.log(connected_elems[j].line["save_id"]);
-                if (connected_elems[j].elem["save_id"] == undefined || connected_elems[j].line["save_id"] == undefined) {
-                    throw Error('one of the connected elements is null or undefined' + connected_elems[j].elem);
+                if (connected_elems[j].elem["save_id"] === undefined || connected_elems[j].line["save_id"] === undefined) {
+                    console.error('one of the connected elements is null or undefined' + connected_elems[j].elem);
+                    continue;
                 }
                 var connected_elem = {
                     "lineid": parseInt(connected_elems[j].line["save_id"]).toString(),

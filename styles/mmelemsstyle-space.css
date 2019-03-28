@@ -1,0 +1,92 @@
+.mmelem 
+{
+    background-color: rgb(89, 89, 92);
+    border: 1px solid #55c1cf;
+    border-radius: 5px;
+}
+.mmelem .mmclose
+{
+    border: none;
+    background: transparent;
+}
+.mmelem .mmclose::before {
+    content: "";
+    font-family: winjs-symbols;
+    position: absolute;
+    right: 0;
+    top: -3px;
+    vertical-align: top;
+    display: block;
+    color: #55c1cf;
+}
+
+.mmmain
+{
+    z-index: 2;
+}
+.mmmain input
+{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    font-size: 1.6em;
+    width: 12em;
+
+}
+.mmheader
+{
+    z-index: 1;
+}
+.mmheader input
+{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 1em;
+}
+.mmnote {
+    padding: 0;
+    transition: none 200ms ease;
+    transform: translate(0, 20px);
+    transition-property: padding, transform;
+}
+.mmnote .mmclose {
+    display: none;
+}
+.mmnote:hover {
+    padding-top: 20px;
+    transform: translate(0, 0);
+}
+.mmnote:hover .mmclose {
+    display: block;
+}
+.mmnote textarea
+{
+    /* background-color: #30303B; */
+    color: #999;
+    display: block;
+    text-align: center
+}
+
+.mmelem .mm_title
+{
+    border: none;
+    color: #999;
+    text-align: center;
+    background-color: transparent;
+    display: block;
+    /* background-color: #30303B; */
+}
+.genline
+{
+    stroke:#55c1cf;
+    stroke-width:3;
+}
+.pregenline
+{
+    stroke:#55c1cf;
+    stroke-width:3;
+}
+.genline:hover
+{
+    stroke-width: 8!important;
+    opacity: 0.5;
+    cursor: crosshair;
+}

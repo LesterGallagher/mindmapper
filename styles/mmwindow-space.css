@@ -1,0 +1,44 @@
+body {
+    background-color: #1b1b1b;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    user-select: none;
+}
+
+
+#mainh {
+    color: #fff;
+}
+
+#mainh:focus {
+    outline: none;
+}
+
+#mainh:active {
+    outline: none;
+}
+
+#field {}
+
+#menubar {
+    background-color: rgb(89, 89, 92);
+}
+
+#menubar button:hover {
+    background-color: #55c1cf;
+}
+
+#menubar button:focus {
+    outline: none;
+}
+
+#menubar button:active {
+    outline: none;
+}
+
+#menubar .glyph {
+    color: #fff;
+}

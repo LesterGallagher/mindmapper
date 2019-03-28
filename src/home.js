@@ -1,16 +1,17 @@
 (function (e, t, n) { var r = e.querySelectorAll("html")[0]; r.className = r.className.replace(/(^|\s)no-js(\s|$)/, "$1js$2") })(document, window, 0);
 
 require('winstrap/dist/css/winstrap.min.css');
-const $ = require('winstrap/dist/js/vendor/jquery.min.js');
+const $ = require('jquery');
 window['jQuery'] = $;
-require('winstrap/dist/js/vendor/bootstrap.min.js');
+require('bootstrap/dist/js/bootstrap');
 require('./css/home.css');
- 
+
 const storage = require('./storage');
 const IndexedDBStorage = require('./indexeddb-wrapper.js');
 const { saveAs } = require('file-saver');
 const timeago = require('timeago.js');
 require('./winstrap');
+const createSavedMindmap = require('./mustache-templates/home-saved-mindmap.mustache').default;
 
 var gi = document.getElementById.bind(document);
 var form = gi('new-room');
@@ -84,24 +85,14 @@ function updateMindmaps() {
         (function (key) {
             var mm = mmaps[key];
 
-            var $entityItem = $('<div class="entity-list-item">\
-                <div class="item-icon">\
-                    <img alt="icon" height="20" src="public/img/mindmap-white.svg">\
-                </div>\
-                <div class="item-content-secondary">\
-                    <div class="content-text-primary">' + timeago().format(new Date(mm.static.timestamp)) + '</div>\
-                    <div class="content-text-secondary">' + new Date(mm.static.timestamp).toDateString() + '</div>\
-                </div>\
-                <div class="item-content-primary">\
-                    <div class="content-text-primary">' + (mm.static.name || 'Unnamed') + '</div>\
-                    <div class="content-text-secondary">Available ' + (mm.type === 'api_bin' ? 'online' : '') + ' </div>\
-                </div>\
-                <div class="item-content-expanded">\
-                    <button class="btn btn-primary btn-open">Open</button>\
-                    <button class="btn btn-default btn-download">Download</button>\
-                    <button class="btn btn-default btn-">Delete</button>\
-                </div>\
-            </div>');
+            console.log(createSavedMindmap);
+
+            var $entityItem = $(createSavedMindmap({
+                timeago: timeago().format(new Date(mm.static.timestamp)),
+                date: new Date(mm.static.timestamp).toDateString(),
+                name: (mm.static.name || 'Unnamed'),
+                available: (mm.type === 'api_bin' ? 'online' : '')
+            }));
 
             $savedMindviews.append($entityItem);
 
@@ -127,16 +118,12 @@ function updateMindmaps() {
                 }
             });
 
-            // if (mm.type === 'api_bin') {
-            //     $.get("https://api.myjson.com/bins/" + conf.room, function (data, textStatus, jqXHR) {
-            //         $entityItem.find('.item-content-secondary .content-text-secondary')
-            //             .text(data.elems.)
-            //     });
-            // } else {
-            //     storage.get(mm.static.id).then(function(mm) {
-
-            //     });
-            // }
+            $entityItem.find('.btn-delete').on('click', function () {
+                if (confirm('Are you sure?')) {
+                    storage.deleteMindmap(mm);
+                    $entityItem.remove();
+                }
+            });
         })(key);
     }
 
