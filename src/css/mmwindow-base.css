@@ -46,7 +46,3 @@ html {}
 #menubar button:active {
     outline: none;
 }
-
-#menubar .glyph {
-    color: #fff;
-}

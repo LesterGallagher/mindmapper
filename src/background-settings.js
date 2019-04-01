@@ -49,6 +49,7 @@ $('#backgroundSizeSelect').on('change', e => {
 
 $('#backgroundImageRemoveButton').on('click', e => {
     field.style.backgroundImage = null;
+    db.delete('bg-image-v1');
     $('#backgroundImageRemoveButton').hide();
 });
 
@@ -59,7 +60,7 @@ $('#backgroundImage').on('change', e => {
     $('#backgroundImageRemoveButton').show();
 });
 
-$('#backgroundColorInput').on('change', e => {
+$('#backgroundColorInput').on('input', e => {
     field.style.backgroundColor = e.target.value;
     localStorage.setItem('bg-color-v1', e.target.value);
 });

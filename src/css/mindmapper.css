@@ -1,6 +1,6 @@
 @import './color-pick.css';
 @import './mmelems-base.css';
-@import './mmwindows-base.css';
+@import './mmwindow-base.css';
 
 html {
 }
@@ -200,23 +200,23 @@ html {
 }
 
 #menubar .glyph {
-    font-size: 40px;
+    font-size: 30px;
 }
 
 #spawn_elem_btn0 .glyph {
-    font-size: 40px;
+    font-size: 30px;
     vertical-align: middle;
     line-height: 20px;
 }
 
 #spawn_elem_btn1 .glyph {
-    font-size: 32px;
+    font-size: 22px;
     vertical-align: middle;
     line-height: 20px;
 }
 
 #spawn_elem_btn2 .glyph {
-    font-size: 25px;
+    font-size: 16px;
     vertical-align: middle;
     line-height: 20px;
 }

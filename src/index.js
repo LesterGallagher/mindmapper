@@ -31,3 +31,9 @@ window.onbeforeunload = function() {
 $('#btn-back-home').on('click', function() {
     window.location.href = window.location.origin + '/index.html';
 });
+
+if (conf.ispublic) {
+
+} else {
+    $('#spawn_elem_btn3').hide();
+}

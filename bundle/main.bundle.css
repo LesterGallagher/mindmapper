@@ -59,7 +59,7 @@
 {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     font-weight: bold;
-    font-size: 1.6em;
+    font-size: 1.2em;
     width: 12em;
 
 }
@@ -141,10 +141,6 @@ html {}
 
 #menubar button:active {
     outline: none;
-}
-
-#menubar .glyph {
-    color: #fff;
 }
 html {
 }
@@ -344,23 +340,23 @@ html {
 }
 
 #menubar .glyph {
-    font-size: 40px;
+    font-size: 30px;
 }
 
 #spawn_elem_btn0 .glyph {
-    font-size: 40px;
+    font-size: 30px;
     vertical-align: middle;
     line-height: 20px;
 }
 
 #spawn_elem_btn1 .glyph {
-    font-size: 32px;
+    font-size: 22px;
     vertical-align: middle;
     line-height: 20px;
 }
 
 #spawn_elem_btn2 .glyph {
-    font-size: 25px;
+    font-size: 16px;
     vertical-align: middle;
     line-height: 20px;
 }

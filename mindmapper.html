@@ -45,6 +45,9 @@
             <button id="spawn_elem_btn2" type="button" title="Add a text node.">
                 <span class="glyph glyph-add" aria-hidden="true"></span>
             </button>
+            <button id="spawn_elem_btn3" type="button" title="Add an image node.">
+                <span class="glyph glyph-add" aria-hidden="true"></span>
+            </button>
             <button title="Save to storage" id="save-to-storage" type="button">
                 <span class="glyph glyph-save" aria-hidden="true"></span>
             </button>
@@ -60,12 +63,7 @@
             <button type="button" aria-hidden="true" data-toggle="modal" data-target="#export-modal">
                 <span class="glyph glyph-download"></span>
             </button>
-            <button id="btn-delta-back" type="button" title="Back">
-                <span class="glyph glyph-arrow-left"></span>
-            </button>
-            <button id="btn-delta-revert" type="button" title="Revert">
-                <span class="glyph glyph-arrow-right"></span>
-            </button>
+
         </div>
 
         <div id="field">
@@ -111,9 +109,10 @@
                                 <label for="backgroundImage">Background image</label>
                                 <input type="file" id="backgroundImage">
                                 <p class="help-block">Upload an image to be used as the background.</p>
+                                <button style="display: none" id="backgroundImageRemoveButton" type="reset"
+                                    class="btn btn-default">Remove background image</button>
                             </div>
 
-                            <button style="display: none" id="backgroundImageRemoveButton" type="reset" class="btn btn-default">Remove background image</button>
 
                             <div class="form-group">
                                 <label for="backgroundSizeSelect">Background size</label>
@@ -194,6 +193,37 @@
                             </div>
 
                             <button id="exportButton" type="submit" class="btn btn-default">Export</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div id="node-image-select" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Node Image</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form">
+                            <img id="node-image-select-preview" alt="Node Preview" class="img-responsive">
+
+                            <div class="form-group">
+                                <label for="nodeImage">Image</label>
+                                <input type="file" id="nodeImage">
+                                <p class="help-block">Upload an image to be used as the node image.</p>
+                            </div>
+
+                            <button id="selectNodeImageSubmit" type="submit" class="btn btn-default">Set Image</button>
                         </form>
                     </div>
                     <div class="modal-footer">

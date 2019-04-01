@@ -5,11 +5,13 @@ let activeElem;
 let globalelems = exports.globalelems = [];
 let globallines = exports.globallines = [];
 const { throttle } = require('./core');
+const nodeImageModal = require('./node-image-modal');
 
-const elementType = {
+const elementType = exports.elementType = {
     LARGE: 0,
     MIDDLE: 1,
-    SMALL: 2
+    SMALL: 2,
+    IMAGE: 3
 };
 
 let saved = true;
@@ -80,18 +82,16 @@ exports.CreateElement = (state) => {
     let loadedelem = CreateNewElement(type, key).elem;
     $(loadedelem).css('left', leftpos);
     $(loadedelem).css('top', toppos);
-    if (type === Element.SMALL) {
-        $(loadedelem).children('textarea').css('font-size', fontsize);
-        $(loadedelem).children('textarea').css('width', width);
-        $(loadedelem).children('textarea').css('height', height);
-        $(loadedelem).children('textarea').val(content);
-        $(loadedelem).children('textarea').on('click', e => e.stopPropagation());
-        $(loadedelem).children('input').on('click', e => e.stopPropagation());
-    }
-    else {
-        $(loadedelem).children('input').css('font-size', fontsize);
-        $(loadedelem).children('input').val(content);
-    }
+    $(loadedelem).children('textarea').css('font-size', fontsize);
+    $(loadedelem).children('textarea').css('width', width);
+    $(loadedelem).children('textarea').css('height', height);
+    $(loadedelem).children('textarea').val(content);
+    $(loadedelem).children('textarea').on('click', e => e.stopPropagation());
+    $(loadedelem).children('input').on('click', e => e.stopPropagation());
+    $(loadedelem).children('input').css('font-size', fontsize);
+    $(loadedelem).children('input').val(content);
+    $(loadedelem).find('img').attr('width', (width || '').replace('px', ''));
+    $(loadedelem).find('img').attr('src', content);
     if (backgroundcolor !== undefined) {
         $(loadedelem).css('background-color', backgroundcolor);
     }
@@ -220,6 +220,10 @@ $(document).ready(() => {
         const key = Math.random().toString(36);
         CreateNewElement(elementType.SMALL, key, true);
     });
+    $('#spawn_elem_btn3').click(() => {
+        const key = Math.random().toString(36);
+        CreateNewElement(elementType.IMAGE, key, true);
+    });
     $('#color-picker').click((e) => {
         e.stopPropagation();
     });
@@ -312,7 +316,7 @@ function CreateNewElement(type, key, emit = false) {
             htmltype = `
             <div class="mmelem mmmain">
             <input class="mm_title" type="text" name="title" value="new title">
-            <button class="mmclose" type="submit"></button>            
+            <button class="mmclose" type="button"></button>            
             </div>`;
             break;
         case 1:
@@ -320,7 +324,7 @@ function CreateNewElement(type, key, emit = false) {
             htmltype = `
             <div class="mmelem mmheader">
             <input class="mm_title" type="text" name="title" value="new title">
-            <button class="mmclose" type="submit"></button>            
+            <button class="mmclose" type="button"></button>            
             </div>`;
             break;
         case 2:
@@ -328,15 +332,21 @@ function CreateNewElement(type, key, emit = false) {
             htmltype = `
             <div class="mmelem mmnote">
             <textarea name="textarea" style:"width:100px;height:60px;" class="mmcontent"></textarea>
-            <button class="mmclose" type="submit"></button>            
+            <button class="mmclose" type="button"></button>            
+            </div>`;
+            break;
+        case 3:
+            htmltype = `<div class="mmelem mmimage">
+            <img alt="Mindmapper media node" src="https://via.placeholder.com/150">
+            <button class="mmclose" type="button"></button>            
             </div>`;
             break;
         default:
             //This is a safeguard case.
             htmltype = `
-            <div class="mmelem">
+            <div class="mmelem mmheader">
             <input class="mm_title" type="text" name="title" value="new title">
-            <button class="mmclose" type="submit"></button>
+            <button class="mmclose" type="button"></button>            
             </div>`;
             //throw Error("No valid type was selected: "+type);
             break;
@@ -574,6 +584,9 @@ function CreateNewElement(type, key, emit = false) {
             });
         }
     });
+    $(elem).on('click', 'img', function(e) {
+        nodeImageModal.open($(elem).get(0));
+    });
     //Close this element
     elem.RemoveThis = (emit = false) => {
         while (elem.mmdata.connected_elems.length > 0) {
@@ -612,6 +625,10 @@ function CreateNewElement(type, key, emit = false) {
                     amount = 0;
                 $(elem).children('.mm_title').css("font-size", fontsize + amount / 4);
 
+                break;
+            case elementType.IMAGE:
+                const $img = $(elem).find('img');
+                $img.attr('width', $img.width() * (1 + amount / 40));
                 break;
             case elementType.MIDDLE:
                 //This is a header element.
@@ -768,11 +785,11 @@ function GetDistance(pos1, pos2) {
 
 function SetPathData(path, attrname, value, xboffset, yboffset) {
     var data = path.getAttribute('d');
-    var splitted_data = data.split(' ');
+    var splitted_data = data.split(/\s+/);
     var newPathData;
 
     if (attrname == 'x1') {
-        let datacoords = splitted_data[0].split(',');
+        let datacoords = splitted_data[0].split(/,\s?/);
         datacoords[0] = parseInt(datacoords[0].replace(/[MC]/i, ''), 10);
         datacoords[1] = parseInt(datacoords[1], 10);
         splitted_data[0] = `M${value},${datacoords[1]}`;
@@ -780,7 +797,7 @@ function SetPathData(path, attrname, value, xboffset, yboffset) {
         newPathData = splitted_data.join(' ');
     }
     else if (attrname == 'y1') {
-        let datacoords = splitted_data[0].split(',');
+        let datacoords = splitted_data[0].split(/,\s?/);
         datacoords[0] = parseInt(datacoords[0].replace(/[MC]/i, ''), 10);
         datacoords[1] = parseInt(datacoords[1], 10);
         splitted_data[0] = `M${datacoords[0]},${value}`;
@@ -788,7 +805,7 @@ function SetPathData(path, attrname, value, xboffset, yboffset) {
         newPathData = splitted_data.join(' ');
     }
     else if (attrname == 'x2') {
-        let datacoords = splitted_data[3].split(',');
+        let datacoords = splitted_data[3].split(/,\s?/);
         datacoords[0] = parseInt(datacoords[0], 10);
         datacoords[1] = parseInt(datacoords[1], 10);
         splitted_data[3] = `${value},${datacoords[1]}`;
@@ -798,7 +815,7 @@ function SetPathData(path, attrname, value, xboffset, yboffset) {
     }
     else if (attrname == 'y2') {
 
-        let datacoords = splitted_data[3].split(',');
+        let datacoords = splitted_data[3].split(/,\s?/);
         datacoords[0] = parseInt(datacoords[0], 10);
         datacoords[1] = parseInt(datacoords[1], 10);
         splitted_data[3] = `${datacoords[0]},${value}`;

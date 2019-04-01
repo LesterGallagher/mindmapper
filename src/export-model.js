@@ -6,7 +6,7 @@ const domtoimage = require('dom-to-image');
 
 console.log(font);
 
-$('#export-modal, form').on('submit', e => {
+$('#export-modal form').on('submit', e => {
     e.preventDefault();
 
     var title = $('#mainh').val();
@@ -76,7 +76,8 @@ $('#export-modal, form').on('submit', e => {
                 if (!includeBackground) {
                     field.setAttribute('style', prevStyle);
                 }
-                alert('Error: ' + error);
+                console.error(error);
+                alert('Error: ', error);
             });
             break;
     }

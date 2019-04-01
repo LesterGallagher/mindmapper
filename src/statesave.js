@@ -4,15 +4,16 @@ const interactivity = require('./interactivity');
 
 class StateSave {
     constructor() {
-        this.typetoclass = {
-            "mmmain": 0,
-            "mmheader": 1,
-            "mmnote": 2
+        this.typeToClass = {
+            'mmmain': interactivity.elementType.LARGE,
+            'mmheader': interactivity.elementType.MIDDLE,
+            'mmnote': interactivity.elementType.SMALL,
+            'mmimage': interactivity.elementType.IMAGE
         };
         window.StateSave = this;
     }
 
-    compileState (id) {
+    compileState(id) {
 
         let mmname = $(document.getElementById('mainh')).val();
 
@@ -53,18 +54,36 @@ class StateSave {
             // console.log(savebleconectedelems);
             let elemclass = elems[i].attr('class').trim().split(/\s+/)[1];
             //console.log(typetoclass[elemclass]);
-            let elem = {
-                "id": elems[i]["save_id"],
-                "key": $(elems[i]).attr('data-key'),
-                "type": this.typetoclass[elemclass],
-                "leftpos": $(elems[i]).css("left"),
-                "toppos": $(elems[i]).css("top"),
-                "connected_elems": savebleconectedelems,
-                "font-size": $(elems[i]).children(this.typetoclass[elemclass] == 2 ? 'textarea' : 'input').css('font-size'),
-                "width": $(elems[i]).children('textarea').css('width'),
-                "height": $(elems[i]).children('textarea').css('height'),
-                "content": $(elems[i]).children(this.typetoclass[elemclass] == 2 ? 'textarea' : 'input').val(),
-            };
+            var elem;
+
+            const type = this.typeToClass[elemclass];
+
+            if (type === interactivity.elementType.IMAGE) {
+                elem = {
+                    "id": elems[i]["save_id"],
+                    "key": $(elems[i]).attr('data-key'),
+                    "type": type,
+                    "leftpos": $(elems[i]).css("left"),
+                    "toppos": $(elems[i]).css("top"),
+                    "connected_elems": savebleconectedelems,
+                    "width": $(elems[i]).find('img').width() + 'px',
+                    "content": $(elems[i]).find('img').attr('src')
+                };
+            } else {
+                elem = {
+                    "id": elems[i]["save_id"],
+                    "key": $(elems[i]).attr('data-key'),
+                    "type": type,
+                    "leftpos": $(elems[i]).css("left"),
+                    "toppos": $(elems[i]).css("top"),
+                    "connected_elems": savebleconectedelems,
+                    "font-size": $(elems[i]).children(this.typeToClass[elemclass] == 2 ? 'textarea' : 'input').css('font-size'),
+                    "width": $(elems[i]).children('textarea').css('width'),
+                    "height": $(elems[i]).children('textarea').css('height'),
+                    "content": $(elems[i]).children(this.typeToClass[elemclass] == 2 ? 'textarea' : 'input').val(),
+                };
+            }
+
             //console.log(elem);
             savableelems.push(elem);
         }
