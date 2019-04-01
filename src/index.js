@@ -14,6 +14,7 @@ const persistance = require('./persistance');
 const events = require('./events');
 const conf = require('./conf');
 require('./background-settings');
+require('./export-model');
 
 window.onbeforeunload = function() {
     if (conf.ispublic === 'false') {

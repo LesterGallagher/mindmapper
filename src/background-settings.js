@@ -5,27 +5,30 @@ const storage = require('./storage');
 
 const $modal = $('#background-color-modal');
 
+const field = $('#field').get(0);
+
 const db = storage.constructor.getDB();
 
 function init() {
-    const bodyBgColor = rgb2hex($(document.body).css('background-color'))
+    const bodyBgColor = rgb2hex($(field).css('background-color'))
     const localStorageColor = localStorage.getItem('bg-color-v1');
     $('#backgroundColorInput').val(localStorageColor || bodyBgColor);
     if (localStorageColor) {
-        document.body.style.backgroundColor = localStorageColor;
+        field.style.backgroundColor = localStorageColor;
     }
     db.get('bg-image-v1').then(blob => {
         if (!blob) return;
         const url = window.URL.createObjectURL(blob)
-        document.body.style.backgroundSize = document.body.style.backgroundSize || 'initial';
-        document.body.style.backgroundImage = 'url(' + url + ')';
+        field.style.backgroundSize = field.style.backgroundSize || 'initial';
+        field.style.backgroundImage = 'url(' + url + ')';
     });
     if (localStorage.getItem('bg-repeat-v1') !== undefined) {
-        document.body.style.backgroundRepeat = localStorage.getItem('bg-repeat-v1') ? 'repeat' : 'no-repeat';
+        field.style.backgroundRepeat = localStorage.getItem('bg-repeat-v1') ? 'repeat' : 'no-repeat';
         $('#backgroundRepeatInput').get(0).checked = JSON.parse(localStorage.getItem('bg-repeat-v1'));
+        $('#backgroundImageRemoveButton').show();
     }
     if (localStorage.getItem('bg-size-v1') !== undefined) {
-        document.body.style.backgroundSize = localStorage.getItem('bg-size-v1');
+        field.style.backgroundSize = localStorage.getItem('bg-size-v1');
         $('#backgroundSizeSelect').val(localStorage.getItem('bg-size-v1'));
     }
 }
@@ -35,31 +38,37 @@ init();
 $modal.find('.form').on('submit', e => e.preventDefault());
 
 $('#backgroundRepeatInput').on('change', e => {
-    document.body.style.backgroundRepeat = e.target.checked ? 'repeat' : 'no-repeat';
+    field.style.backgroundRepeat = e.target.checked ? 'repeat' : 'no-repeat';
     localStorage.setItem('bg-repeat-v1', e.target.checked);
 });
 
 $('#backgroundSizeSelect').on('change', e => {
-    document.body.style.backgroundSize = e.target.value;
+    field.style.backgroundSize = e.target.value;
     localStorage.setItem('bg-size-v1', e.target.value);
 });
 
+$('#backgroundImageRemoveButton').on('click', e => {
+    field.style.backgroundImage = null;
+    $('#backgroundImageRemoveButton').hide();
+});
+
 $('#backgroundImage').on('change', e => {
-    document.body.style.backgroundSize = document.body.style.backgroundSize || 'initial';
-    document.body.style.backgroundImage = 'url(' + window.URL.createObjectURL(e.target.files[0]) + ')';
+    field.style.backgroundSize = field.style.backgroundSize || 'initial';
+    field.style.backgroundImage = 'url(' + window.URL.createObjectURL(e.target.files[0]) + ')';
     db.set('bg-image-v1', e.target.files[0]);
+    $('#backgroundImageRemoveButton').show();
 });
 
 $('#backgroundColorInput').on('change', e => {
-    document.body.style.backgroundColor = e.target.value;
+    field.style.backgroundColor = e.target.value;
     localStorage.setItem('bg-color-v1', e.target.value);
 });
 
 $('#backgroundResetButton').on('click', e => {
-    document.body.style.backgroundImage = null;
-    document.body.style.backgroundColor = null;
-    document.body.style.backgroundSize = null;
-    document.body.style.backgroundRepeat = null;
+    field.style.backgroundImage = null;
+    field.style.backgroundColor = null;
+    field.style.backgroundSize = null;
+    field.style.backgroundRepeat = null;
 
     localStorage.removeItem('bg-color-v1');
     localStorage.removeItem('bg-size-v1');

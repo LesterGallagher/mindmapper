@@ -9,12 +9,11 @@ const { debounce, throttle } = require('./core');
 const $messages = $('#messages');
 
 const nickname = Math.random().toString(36);
-
+const socketioConnections = conf.apiUrl + '/no-persist-open-chat'
 let waitingForHotMindMap = true;
-
-var socketioConnections = conf.apiUrl + '/no-persist-open-chat'
-
 exports.gotHotData = false;
+
+
 
 exports.socketReadyPromise = new Promise((res, rej) => {
     if (conf.ispublic === 'false') return res(); 
@@ -34,7 +33,7 @@ exports.socketReadyPromise = new Promise((res, rej) => {
                 } else if (batched.length > 1) {
                     socket.emit('msg', { type: 'batched_updates', batched });
                 } else {
-                    socket.emit('msg', batched[0])
+                    socket.emit('msg', batched[0]);
                 }
                 batched.splice(0, batched.length);
             }, 1000 / 25 /* 25 fps */);
@@ -54,7 +53,6 @@ exports.socketReadyPromise = new Promise((res, rej) => {
                 else {
                     handleFieldEvent(data, emitBatchedMsg);
                 }
-                console.log(data);
             });
 
             socket.on('disconnected', function (data) {
@@ -81,6 +79,8 @@ exports.socketReadyPromise = new Promise((res, rej) => {
 });
 
 const handleFieldEvent = (data, emitBatchedMsg) => {
+
+
     if (data.type === 'chat') {
         writeMessageToChat(data);
     } else if (data.type === 'update') {
@@ -184,8 +184,10 @@ const patch = (data) => {
     } else if (data.action === 'elem_modified') {
         const key = patch.key;
         if (patch.content !== undefined) {
+            console.log(globalelemnsHashed[key].get(0));
+            console.log(globalelemnsHashed[key].find('input, textarea'));
             globalelemnsHashed[key].find('input, textarea').val(patch.content);
-        }
+        }   
         if (patch['font-size'] !== undefined) {
             globalelemnsHashed[key].find('input, textarea').css('font-size', patch['font-size']);
         }

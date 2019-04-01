@@ -31,7 +31,7 @@ class Field extends EventEmitter {
         const $field = $('#field');
         const fieldContentInput = e => {
             const content = e.target.value;
-            const key = $(e.target).attr('data-key');
+            const key = $(e.target).parent('.mmelem').attr('data-key');
             fieldEmitThrottled('elem_modified', { key, content });
         }
         $field.on('input', '.mmelem textarea', fieldContentInput);
@@ -86,6 +86,7 @@ exports.CreateElement = (state) => {
         $(loadedelem).children('textarea').css('height', height);
         $(loadedelem).children('textarea').val(content);
         $(loadedelem).children('textarea').on('click', e => e.stopPropagation());
+        $(loadedelem).children('input').on('click', e => e.stopPropagation());
     }
     else {
         $(loadedelem).children('input').css('font-size', fontsize);
@@ -428,8 +429,6 @@ function CreateNewElement(type, key, emit = false) {
             $(thisline).attr('data-key', key);
             globallinesHashed[key] = thisline;
 
-            window.currdrag = undefined;
-
             fieldEmitThrottled('line_created', {
                 strokewidth: $(thisline).css('strokeWidth'),
                 strokecolor: $(thisline).css('strokeColor'),
@@ -437,6 +436,8 @@ function CreateNewElement(type, key, emit = false) {
                 key2: $(window.currdrag).attr('data-key'),
                 key
             });
+
+            window.currdrag = undefined;
 
             //update how the line looks
             return;

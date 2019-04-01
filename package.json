@@ -37,7 +37,9 @@
   },
   "dependencies": {
     "bootstrap": "^3.4.1",
+    "dom-to-image": "^2.6.0",
     "file-saver": "^2.0.1",
+    "jszip": "^3.2.1",
     "url-loader": "^1.1.2",
     "winstrap": "^0.5.12"
   }

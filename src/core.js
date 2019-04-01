@@ -26,8 +26,6 @@ exports.GetMiddleOfElement = (elem) => {
 
     //console.log(`get middle of element: x = ${x} y= ${y} width ${width} height = ${height}`);
 
-    console.log({x, y});
-
     return ({
         'x': (parseInt(x + width / 2)),
         'y': (parseInt(y + height / 2))
