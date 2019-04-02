@@ -36,4 +36,5 @@ export const open = elem => {
     if (_imageElem) unsetImage(_imageElem);
     _imageElem = elem;
     $modal.modal().show();
+    $('#node-image-select-preview').attr('src', $(elem).find('img').attr('src'));
 }

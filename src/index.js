@@ -14,7 +14,8 @@ const persistance = require('./persistance');
 const events = require('./events');
 const conf = require('./conf');
 require('./background-settings');
-require('./export-model');
+require('./export-modal');
+require('./sharing-modal');
 
 window.onbeforeunload = function() {
     if (conf.ispublic === 'false') {
@@ -32,8 +33,8 @@ $('#btn-back-home').on('click', function() {
     window.location.href = window.location.origin + '/index.html';
 });
 
-if (conf.ispublic) {
-
-} else {
-    $('#spawn_elem_btn3').hide();
+console.log(conf.ispublic)
+if (!conf.ispublic !== 'true') {
+    $('#spawn_elem_btn3').show();
 }
+
