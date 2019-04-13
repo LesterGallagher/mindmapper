@@ -26,7 +26,7 @@ const init = () => {
         'https://mindmapper.esstudio.site/public/img/mindmap.png',
         'medium');
 
-    $('#sharing-modal .modal-body').html(html);
+    $('#sharing-modal .modal-body').get(0).innerHTML = html;
 
 }
 
