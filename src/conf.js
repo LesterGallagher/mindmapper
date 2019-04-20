@@ -5,7 +5,7 @@ module.exports = {
     apiUrl: 'https://api.esstudio.site/api/mindviewer-web',
     room,
     ispublic, 
-    name,
+    name: name || '',
     id
 }
 
