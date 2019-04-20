@@ -24,7 +24,7 @@
     "jquery": "^3.2.1",
     "md2js-loader": "^1.0.3",
     "mini-css-extract-plugin": "^0.5.0",
-    "mustache2js-loader": "^1.0.7",
+    "mustache2js-loader": "^1.0.8",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
     "postcss-loader": "^2.1.5",
     "precss": "^3.1.2",
