@@ -26,7 +26,7 @@ if (conf.ispublic === 'false') {
     exports.dataId = conf.id || Math.random().toString(36);
 
     if (conf.id) {
-        storage.getMindmaps().then(maps => {
+        storage.getMindviews().then(maps => {
             const data = maps[conf.id];
             if (!data) {
                 $('#fullscreen-loader').fadeOut();
@@ -44,7 +44,7 @@ if (conf.ispublic === 'false') {
         // saveOnDevice();
         const state = stateSave.compileState(exports.dataId);
         state.type = 'app_storage'
-        storage.putMindmap(state).then(() => {
+        storage.putMindview(state).then(() => {
             interactivity.setSaved();
             timeSinceLastSave = new Date();
             refreshTimeSince();
@@ -55,15 +55,23 @@ if (conf.ispublic === 'false') {
     });
 } else {
 
-    $.get("https://api.myjson.com/bins/" + conf.room, function (data, textStatus, jqXHR) {
-        if (events.gotHotData === false) stateLoader.readData(data);
+    $.ajax({
+        url: "https://api.myjson.com/bins/" + conf.room,
+        type: 'GET',
+        success: function (data) {
+            if (events.gotHotData === false) stateLoader.readData(data);
 
-        exports.percistanceLoaded = true;
-        exports.dataId = data.static.id;
+            exports.percistanceLoaded = true;
+            exports.dataId = data.static.id;
 
-        events.socketReadyPromise.then(() => {
-            $('#fullscreen-loader').fadeOut();
-        });
+            events.socketReadyPromise.then(() => {
+                $('#fullscreen-loader').fadeOut();
+            });
+        },
+        error: function (data, t1, t2) {
+            alert(t2);
+            window.history.back();
+        }
     });
 
     $saveBtn.add($saveMenuBtn).on('click', () => {
@@ -74,7 +82,7 @@ if (conf.ispublic === 'false') {
 
 const saveOnDevice = () => {
     var blob = new Blob([JSON.stringify(stateSave.compileState(exports.dataId))], { type: "application/json;charset=utf-8" });
-    var saveAs = FileSaver.saveAs(blob, $('#mainh').val() + '-mindmap.onmm');
+    var saveAs = FileSaver.saveAs(blob, $('#mainh').val() + '-mindview.onmm');
     console.log(saveAs);
     interactivity.setSaved();
     timeSinceLastSave = new Date();
@@ -83,7 +91,7 @@ const saveOnDevice = () => {
 
 const saveToJsonOnline = exports.saveToJsonOnline = () => {
     // console.log('save');
-    storage.putMindmap({
+    storage.putMindview({
         type: 'api_bin',
         room: conf.room,
         static: {

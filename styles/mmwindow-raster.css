@@ -2,11 +2,15 @@ html
 {
     
 }
-#field
-{
-    background-image:  url(../../img/grid.png);
+
+body {
+    background-image:  url(../../public/img/grid.png);
     background-size: 15px;
     background-color: #5c9ead;
+}
+
+#field
+{
     width: 100vw;
     height: 100vh;
     margin: 0;

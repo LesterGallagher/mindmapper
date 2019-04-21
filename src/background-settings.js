@@ -1,6 +1,6 @@
 
 const $ = require('jquery');
-const { rgb2hex } = require('./util');
+import { rgb2hex } from './util';
 const storage = require('./storage');
 
 const $modal = $('#background-color-modal');

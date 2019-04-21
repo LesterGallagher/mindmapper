@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Mindmapper | Home</title>
+    <title>Mindviewer | Home</title>
 
     <meta name="theme-color" content="#262628">
 
@@ -54,10 +54,19 @@
                                 </div>
                                 <div class="entity-list-item">
                                     <div class="item-icon">
+                                        <span class="glyph glyph-link"></span>
+                                    </div>
+                                    <div class="item-content-primary">
+                                        <div class="content-text-primary">Connect</div>
+                                        <div class="content-text-secondary">Connect to a public mindmap from a url.</div>
+                                    </div>
+                                </div>
+                                <div class="entity-list-item">
+                                    <div class="item-icon">
                                         <span class="glyph glyph-folder-horizontal-open"></span>
                                     </div>
                                     <div class="item-content-primary">
-                                        <div class="content-text-primary">Mindmaps</div>
+                                        <div class="content-text-primary">Mindviews</div>
                                         <div class="content-text-secondary">Collection of saved mindmaps</div>
                                     </div>
                                 </div>
@@ -124,10 +133,11 @@
                                     <div class="row">
                                         <div class="col-xs-24">
                                             <h2>Create a new mindmap</h2>
+                                            <br>
                                             <form id="new-room" method="GET">
                                                 <div class="form-group">
                                                     <label for="mindmap-name">Name</label>
-                                                    <input id="name" name="name" type="text" class="form-control"
+                                                    <input required name="name" type="text" class="form-control"
                                                         id="mindmap-name"
                                                         placeholder="Enter the name of your new mindmap">
                                                 </div>
@@ -214,7 +224,27 @@
                                 </div>
 
                             </section>
-                            <section detail-item-index="2">
+                            <section detail-item-index="2" class="padded-top">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-xs-24">
+                                            <h2>Connect to a public mindmap</h2>
+                                            <br>
+                                            <form id="connect-room" method="GET">
+                                                <div class="form-group">
+                                                    <label for="connect-room-url">URL or room ID</label>
+                                                    <input required id="connect-room-url" name="name" type="text" class="form-control"
+                                                        placeholder="Enter the sharing url or the id of the mindmap">
+                                                </div>
+
+                                                <button type="submit" class="btn btn-primary">Connect</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </section>
+                            <section detail-item-index="3">
 
                                 <div id="saved-mindviews" class="entity-list entity-list-expandable">
                                     <div class="entity-list-item">
@@ -295,7 +325,7 @@
                                 </div>
                             </section>
 
-                            <section detail-item-index="3">
+                            <section detail-item-index="4">
                                 <div class="container-fluid">
                                     <div class="row">
                                         <div class="col-xs-24 padded-top">
@@ -335,17 +365,17 @@
                                 </div>
                             </section>
 
-                            <section detail-item-index="4">
+                            <section detail-item-index="5">
                                 <iframe frameborder="0" class="detail-iframe"
                                     data-iframe-load="https://esstudio.site"></iframe>
                             </section>
 
-                            <section detail-item-index="5">
+                            <section detail-item-index="6">
                                 <iframe frameborder="0" class="detail-iframe"
                                     data-iframe-load="https://esstudio.site/about/"></iframe>
                             </section>
 
-                            <section detail-item-index="6">
+                            <section detail-item-index="7">
                                 <iframe frameborder="0" class="detail-iframe"
                                     data-iframe-load="https://esstudio.site/contact/"></iframe>
                             </section>

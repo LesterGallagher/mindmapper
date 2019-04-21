@@ -20,10 +20,10 @@ window.storageEstimateWrapper = function storageEstimateWrapper() {
     return Promise.resolve({ usage: NaN, quota: NaN });
 };
 
-function savableFormat(mindmaps) {
+function savableFormat(mindviews) {
     var retObj = {};
-    Object.keys(mindmaps).forEach(function (key) {
-        const mm = mindmaps[key];
+    Object.keys(mindviews).forEach(function (key) {
+        const mm = mindviews[key];
         retObj[key] = { 
             static: {
                 name: mm.static.name,
@@ -38,27 +38,27 @@ function savableFormat(mindmaps) {
 }
 
 const indexedDBStorage = new IndexedDBStorage('data');
-const indexDBItemPrefix = 'mindmap-items-';
-const mindmapsLocalstorageName = 'mindmaper-mindmaps-storage-v2';
-let cachedMindmaps = undefined;
+const indexDBItemPrefix = 'mindview-items-';
+const mindviewsLocalstorageName = 'mindviewer-mindviews-storage-v2';
+let cachedMindviews = undefined;
 
 let lastPromise = Promise.resolve();
 
-const getMindmaps = () => {
+const getMindviews = () => {
     return new Promise(function (resolve, reject) {
-        if (cachedMindmaps !== undefined) {
-            resolve(cachedMindmaps);
+        if (cachedMindviews !== undefined) {
+            resolve(cachedMindviews);
         } else {
-            const set = JSON.parse(localStorage.getItem(mindmapsLocalstorageName) || '{}') || {};
-            let mindmapItemsPromises = Object.keys(set).map(function (id) {
+            const set = JSON.parse(localStorage.getItem(mindviewsLocalstorageName) || '{}') || {};
+            let mindviewItemsPromises = Object.keys(set).map(function (id) {
                 return indexedDBStorage.get(indexDBItemPrefix + id)
                     .then(mm => {
                         set[id] = mm;
                     });
             });
-            Promise.all(mindmapItemsPromises).then(function () {
-                cachedMindmaps = set;
-                resolve(cachedMindmaps);
+            Promise.all(mindviewItemsPromises).then(function () {
+                cachedMindviews = set;
+                resolve(cachedMindviews);
             }).catch(err => {
                 logError(err)
                 reject();
@@ -73,9 +73,9 @@ class Storage {
             var testIfICanAccesLocalStorageBecauseOfCookieSecurity = localStorage.getItem('test');
         } catch (err) {
             if (err.code === 18) {
-                alert('You\'ve blocked mindmapper from settings cookies on the mindmaper website.'
+                alert('You\'ve blocked mindviewer from settings cookies on the mindviewer website.'
                     + ' We don\'t send cookies or use cookies, except for anonimized analytics.'
-                    + ' By blocking cookies you\'ve also blocked the saving of mindmaps, bookmarks, favorites etc.'
+                    + ' By blocking cookies you\'ve also blocked the saving of mindviews, bookmarks, favorites etc.'
                     + ' You can read our privacy statement here: https://esstudio.site/privacy-policy', {
                         title: 'Crash'
                     })
@@ -85,24 +85,24 @@ class Storage {
     }
 
     static isFirstTimeAppOpening = () => {
-        return !localStorage.getItem(mindmapsLocalstorageName);
+        return !localStorage.getItem(mindviewsLocalstorageName);
     }
 
     static storageEstimateWrapper = () => this.storageEstimateWrapper();
 
     static getDB = () => indexedDBStorage;
 
-    putMindmap = (parsedMindmap, skipLastPromise = false) => {
+    putMindview = (parsedMindview, skipLastPromise = false) => {
         return lastPromise = new Promise((resolve, reject) => {
             (skipLastPromise ? Promise.resolve() : lastPromise).then(() => {
-                return getMindmaps();
-            }).then(function (mindmaps) {
-                mindmaps[parsedMindmap.static.id] = parsedMindmap;
-                cachedMindmaps = mindmaps;
-                return indexedDBStorage.set(indexDBItemPrefix + parsedMindmap.static.id, parsedMindmap).then(function () {
-                    var fmt = savableFormat(mindmaps);
+                return getMindviews();
+            }).then(function (mindviews) {
+                mindviews[parsedMindview.static.id] = parsedMindview;
+                cachedMindviews = mindviews;
+                return indexedDBStorage.set(indexDBItemPrefix + parsedMindview.static.id, parsedMindview).then(function () {
+                    var fmt = savableFormat(mindviews);
                     try {
-                        localStorage.setItem(mindmapsLocalstorageName, JSON.stringify(fmt));
+                        localStorage.setItem(mindviewsLocalstorageName, JSON.stringify(fmt));
                     } catch (domException) {
                         if (domException.name === 'QuotaExceededError'
                             || domException.name === 'NS_ERROR_DOM_QUOTA_REACHED') {
@@ -118,17 +118,17 @@ class Storage {
         });
     }
 
-    shouldWeakPut = (parsedMindmap, skipLastPromise = false) => {
+    shouldWeakPut = (parsedMindview, skipLastPromise = false) => {
         return lastPromise = new Promise((resolve, reject) => {
-            // only put if mindmap doesn't already exist 
-            // and if the older mindmap has another should_update_token
+            // only put if mindview doesn't already exist 
+            // and if the older mindview has another should_update_token
 
 
             (skipLastPromise ? Promise.resolve() : lastPromise).then(() => {
-                return getMindmaps();
-            }).then(function (mindmaps) {
-                var should = !mindmaps[parsedMindmap.static.id]
-                    || mindmaps[parsedMindmap.static.id].should_update_token !== parsedMindmap.should_update_token;
+                return getMindviews();
+            }).then(function (mindviews) {
+                var should = !mindviews[parsedMindview.static.id]
+                    || mindviews[parsedMindview.static.id].should_update_token !== parsedMindview.should_update_token;
                 resolve(should);
             }).catch(err => {
                 logError(err)
@@ -136,15 +136,15 @@ class Storage {
             });
         });
     }
-    tryWeakPut = parsedMindmap => {
-        // only put if mindmap doesn't already exist 
-        // and if the older mindmap has another should_update_token
+    tryWeakPut = parsedMindview => {
+        // only put if mindview doesn't already exist 
+        // and if the older mindview has another should_update_token
         return lastPromise = new Promise((resolve, reject) => {
             lastPromise.then(() => {
-                return this.shouldWeakPut(parsedMindmap, true);
+                return this.shouldWeakPut(parsedMindview, true);
             }).then((shouldWeakPut) => {
                 if (shouldWeakPut) {
-                    this.putMindmap(parsedMindmap, true).then(() => {
+                    this.putMindview(parsedMindview, true).then(() => {
                         resolve(true);
                     });
                 } else {
@@ -153,24 +153,24 @@ class Storage {
             }).catch(resolve);
         });
     }
-    getMindmaps = () => {
+    getMindviews = () => {
         return lastPromise = lastPromise.then(function () {
-            return getMindmaps();
+            return getMindviews();
         });
     }
-    deleteMindmap = mindmap => {
-        return this.deleteMindmapKey(mindmap.static.id);
+    deleteMindview = mindview => {
+        return this.deleteMindviewKey(mindview.static.id);
     }
-    deleteMindmapKey = mindmapKey => {
+    deleteMindviewKey = mindviewKey => {
         return lastPromise = new Promise(function (resolve, reject) {
             lastPromise.then(function () {
-                return getMindmaps();
-            }).then(function (mindmaps) {
-                return indexedDBStorage.delete(indexDBItemPrefix + mindmapKey).then(function () {
-                    delete mindmaps[mindmapKey];
-                    cachedMindmaps = mindmaps;
+                return getMindviews();
+            }).then(function (mindviews) {
+                return indexedDBStorage.delete(indexDBItemPrefix + mindviewKey).then(function () {
+                    delete mindviews[mindviewKey];
+                    cachedMindviews = mindviews;
                     try {
-                        localStorage.setItem(mindmapsLocalstorageName, JSON.stringify(cachedMindmaps));
+                        localStorage.setItem(mindviewsLocalstorageName, JSON.stringify(cachedMindviews));
                     } catch (domException) {
                         if (domException.name === 'QuotaExceededError'
                             || domException.name === 'NS_ERROR_DOM_QUOTA_REACHED') {

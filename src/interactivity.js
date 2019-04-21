@@ -337,7 +337,7 @@ function CreateNewElement(type, key, emit = false) {
             break;
         case 3:
             htmltype = `<div class="mmelem mmimage">
-            <img alt="Mindmapper media node" src="https://via.placeholder.com/150">
+            <img alt="Mindviewer media node" src="https://via.placeholder.com/150">
             <button class="mmclose" type="button"></button>            
             </div>`;
             break;

@@ -2,7 +2,7 @@ require('winstrap/dist/css/winstrap.min.css');
 const $ = require('jquery');
 window['jQuery'] = $;
 require('bootstrap/dist/js/bootstrap');
-require('./css/mindmapper.css');
+require('./css/mindviewer.css');
 
 require('./core');
 

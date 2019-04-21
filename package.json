@@ -3,17 +3,17 @@
   "version": "1.0.0",
   "description": "mind map",
   "main": "electron-main.js",
+  "license": "UNLICENSED",
   "scripts": {
     "start": "rm -rf bundle && webpack-dev-server --open",
     "build": "rm -rf bundle && webpack --mode=production --prod",
     "stats": "rm -rf bundle && webpack --mode=production --profile --json > compilation-stats.json",
-    "electron-pack": "electron-builder --dir",
-    "electron-dist": "electron-builder",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder --publish always",
     "electron": "electron .",
     "postinstall": "electron-builder install-app-deps"
   },
   "author": "Sem Postma",
-  "license": "SEE LICENSE IN license.txt",
   "devDependencies": {
     "@types/jquery": "^2.0.40",
     "autoprefixer": "^8.5.0",
@@ -57,21 +57,36 @@
     "url": "https://github.com/LesterGallagher/mindmapper.git"
   },
   "build": {
-    "appId": "com.ESStudio.Mindmap",
+    "appId": "com.ESStudio.Mindview",
     "mac": {
       "category": "your.app.category.type"
     },
     "win": {
-      "publish": [
-        "github",
-        "bintray"
+      "target": [
+        "portable",
+        "appx"
       ]
     },
+    "publish": [
+      {
+        "provider": "github",
+        "repo": "mindmapper",
+        "owner": "LesterGallagher",
+        "publishAutoUpdate": true
+      },
+      {
+        "provider": "bintray",
+        "package": "mindmapper",
+        "repo": "Mindviewer",
+        "owner": "afirus",
+        "publishAutoUpdate": true
+      }
+    ],
     "files": [
       "**/*",
       "!node_modules/*",
       "!dist/*",
-      "!windows_store/*"
+      "!src/*"
     ]
   }
 }

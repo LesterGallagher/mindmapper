@@ -5,18 +5,21 @@ const $ = require('jquery');
 window['jQuery'] = $;
 require('bootstrap/dist/js/bootstrap');
 require('./css/home.css');
+import { decodeQuery } from './util';
 
 const storage = require('./storage');
 const IndexedDBStorage = require('./indexeddb-wrapper.js');
 const { saveAs } = require('file-saver');
 const timeago = require('timeago.js');
 require('./winstrap');
-const createSavedMindmap = require('./mustache-templates/home-saved-mindmap.mustache').default;
+const createSavedMindview = require('./mustache-templates/home-saved-mindmap.mustache').default;
 
 var gi = document.getElementById.bind(document);
 var form = gi('new-room');
-var input = gi('name');
+var input = gi('mindmap-name');
 const pub = gi('public')
+const connectRoomForm = gi('connect-room');
+const connectRoomUrl = gi('connect-room-url');
 
 form.addEventListener('submit', function (e) {
     e.preventDefault();
@@ -75,19 +78,32 @@ $('[data-iframe-load]').each(function (i) {
     $(this).attr('src', $(this).attr('data-iframe-load'));
 });
 
-function updateMindmaps() {
+connectRoomForm.onsubmit = event => {
+    event.preventDefault();
+    const urlOrId = connectRoomUrl.value;
+    let id;
+    if (urlOrId.indexOf('mindmapper.html') !== -1) {
+        const query = decodeQuery(urlOrId);
+        id = query.room;
+    } else id = urlOrId;
+    console.log('test', id);
+    window.location.href = window.location.origin + '/mindmapper.html?ispublic=true&room=' + id;
+    return false;
+}
+
+function updateMindviews() {
 
     var $savedMindviews = $('#saved-mindviews').empty();
-    var json = localStorage.getItem('mindmaper-mindmaps-storage-v2');
+    var json = localStorage.getItem('mindviewer-mindviews-storage-v2');
     var mmaps = JSON.parse(json);
-    var prefix = 'mindmap-items-';
+    var prefix = 'mindview-items-';
     for (var key in mmaps) {
         (function (key) {
             var mm = mmaps[key];
 
-            console.log(createSavedMindmap);
+            console.log(createSavedMindview);
 
-            var $entityItem = $(createSavedMindmap({
+            var $entityItem = $(createSavedMindview({
                 timeago: timeago().format(new Date(mm.static.timestamp)),
                 date: new Date(mm.static.timestamp).toDateString(),
                 name: (mm.static.name || 'Unnamed'),
@@ -107,20 +123,20 @@ function updateMindmaps() {
             $entityItem.find('.btn-download').on('click', function () {
                 if (mm.type === 'api_bin') {
                     $.get("https://api.myjson.com/bins/" + mm.room, function (data, textStatus, jqXHR) {
-                        saveAs(new Blob([JSON.stringify(data)]), (mm.static.name || 'Unnamed') + '-mindmap.onmm');
+                        saveAs(new Blob([JSON.stringify(data)]), (mm.static.name || 'Unnamed') + '-mindview.onmm');
                     });
                 } else {
-                    storage.getMindmaps().then(mindmaps => {
-                        const storedMM = mindmaps[mm.static.id];
+                    storage.getMindviews().then(mindviews => {
+                        const storedMM = mindviews[mm.static.id];
 
-                        saveAs(new Blob([JSON.stringify(storedMM)]), storedMM.static.name + '-mindmap.onmm');
+                        saveAs(new Blob([JSON.stringify(storedMM)]), storedMM.static.name + '-mindview.onmm');
                     });
                 }
             });
 
             $entityItem.find('.btn-delete').on('click', function () {
                 if (confirm('Are you sure?')) {
-                    storage.deleteMindmap(mm);
+                    storage.deleteMindview(mm);
                     $entityItem.remove();
                 }
             });
@@ -128,12 +144,12 @@ function updateMindmaps() {
     }
 
     if ($savedMindviews.children().length === 0) {
-        $('<div class="container-fluid padded-top"><h2>No saved mindmaps.</h2><p>There\'s nothing here...</p></div>').appendTo($savedMindviews);
+        $('<div class="container-fluid padded-top"><h2>No saved mindviews.</h2><p>There\'s nothing here...</p></div>').appendTo($savedMindviews);
     }
 
 }
 
-updateMindmaps();
+updateMindviews();
 
 function injectLoader(container) {
     $('<div class="progress-ring">\
@@ -207,9 +223,10 @@ $form.on('submit', function (e) {
             },
             success: function (data) {
                 $form.addClass(data.success == true ? 'is-success' : 'is-error');
-                if (!data.success) $errorMsg.text(data.error);
+                if (!data.success) alert(data.error);
             },
             error: function () {
+                alert('error');
                 // Log the error, show an alert, whatever works for you
             }
         });
@@ -239,7 +256,7 @@ function showMMInfo(files) {
         var result = e.target.result;
         var data = JSON.parse(result);
         if (data.type === 'api_bin') {
-            storage.putMindmap({
+            storage.putMindview({
                 type: 'api_bin',
                 room: data.room,
                 static: {
@@ -259,13 +276,13 @@ function showMMInfo(files) {
                     alert('unable to save mind map');
                 },
                 success: function (data, textStatus, jqXHR) {
-                    updateMindmaps();
+                    updateMindviews();
                     alert('Stored online');
                 }
             });
         } else {
-            storage.putMindmap(data).then(() => {
-                updateMindmaps();
+            storage.putMindview(data).then(() => {
+                updateMindviews();
                 alert('Stored in app storage');
             });
         }
