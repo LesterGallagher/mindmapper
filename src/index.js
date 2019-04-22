@@ -17,10 +17,42 @@ require('./background-settings');
 require('./export-modal');
 require('./sharing-modal');
 
-window.onbeforeunload = function() {
+
+function isOnline() {
+
+}
+
+function isFocused() {
+    return document.hasFocus();
+}
+
+function isOffline() {
+    if (isFocused()) {
+        if (conf.ispublic) {
+            events.noInternetConnection();
+        }
+    }
+}
+
+window.addEventListener("online", isOnline, false);
+window.addEventListener("offline", isOffline, false);
+
+window.addEventListener("focus", onFocus, false);
+
+document.addEventListener("resume", onFocus, false);
+
+function onFocus(event) {
+    if (window.navigator.onLine === false) {
+        if (conf.ispublic) {
+            events.noInternetConnection();
+        }
+    }
+}
+
+window.onbeforeunload = function () {
     if (conf.ispublic === 'false') {
         if (interactivity.getSaved()) {
-            
+
         } else {
             return "You have unsaved progress. Are you sure you want to go back to the homepage?";
         }
@@ -29,7 +61,7 @@ window.onbeforeunload = function() {
     }
 }
 
-$('#btn-back-home').on('click', function() {
+$('#btn-back-home').on('click', function () {
     window.location.href = window.location.origin + '/index.html';
 });
 

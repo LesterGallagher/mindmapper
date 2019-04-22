@@ -78,6 +78,10 @@ exports.socketReadyPromise = new Promise((res, rej) => {
     });
 });
 
+exports.noInternetConnection = function() {
+    writeMessageToChat({ msg: 'You\'re offline. You cannot save a public mindmap when you\'re offline. Please connect to the internet.', from: ''})
+}
+
 const handleFieldEvent = (data, emitBatchedMsg) => {
 
 
