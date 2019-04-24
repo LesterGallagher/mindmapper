@@ -1,3 +1,5 @@
+import conf from './conf';
+
 const $ = require('jquery');
 
 const $chooseColorTheme = $('#choose-color-theme');
@@ -6,7 +8,7 @@ const $chooseColorOptions = $('#choose-color-theme-options');
 const $mmelemStyle = $('#mmelem-style');
 const $mmwindowStyle = $('#mmwindow-style');
 
-let theme = (window.localStorage && window.localStorage.theme) || 'dark';
+let theme = conf.theme || (window.localStorage && window.localStorage.theme) || 'dark';
 
 const themes = {
     dark: '#30303b',
@@ -16,7 +18,8 @@ const themes = {
     monokai: '#a6e22e',
     raster: '#c2fcf7',
     russian: '#420039',
-    space: '#55c1cf'
+    space: '#55c1cf',
+    minimalistic: '#ffffff'
 }
 
 const itemWidth = 60;

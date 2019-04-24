@@ -13,7 +13,17 @@
     <link rel="stylesheet" type="text/css" href="bundle/main.bundle.css">
 
     <script>
-        var theme = (window.localStorage && window.localStorage.theme) || 'dark';
+        function decodeQuery(url, discardEmpty) {
+            url = (url || window.location.href).split('?')[1] || '';
+            var ret = {}, url, qKVP, qParts = url.split('&');
+            for (var i = 0; i < qParts.length; i++) {
+                qKVP = qParts[i].split('=');
+                if (discardEmpty && (!qKVP[0] || !qKVP[1])) continue;
+                ret[decodeURIComponent(qKVP[0])] = decodeURIComponent(qKVP[1]);
+            }
+            return ret;
+        }
+        var theme = decodeQuery().theme || (window.localStorage && window.localStorage.theme) || 'dark';
         document.write('<link id="mmwindow-style" rel="stylesheet" href="styles/mmelemsstyle-' + theme + '.css">')
         document.write('<link id="mmelem-style" rel="stylesheet" href="styles/mmwindow-' + theme + '.css">')
     </script>
@@ -42,11 +52,12 @@
                 <span class="glyph glyph-add" aria-hidden="true"></span>
             </button>
             <button id="spawn_elem_btn2" type="button" title="Add a text node.">
-                <span class="glyph glyph-add" aria-hidden="true"></span>
+                <span class="glyph glyph-font-size" aria-hidden="true"></span>
             </button>
             <button id="spawn_elem_btn3" style="display: none" type="button" title="Add an image node.">
-                <span class="glyph glyph-add" aria-hidden="true"></span>
+                <span class="glyph glyph-picture" aria-hidden="true"></span>
             </button>
+            <div role="separator" style="margin-bottom: 50px"></div>
             <button title="Save to storage" id="save-to-storage" type="button">
                 <span class="glyph glyph-save" aria-hidden="true"></span>
             </button>

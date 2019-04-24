@@ -1,7 +1,5 @@
 import { decodeQuery } from './util';
-const { room, ispublic, name, id, firestore } = decodeQuery(null, true);
-
-console.log(room, ispublic, name, id);
+const { room, ispublic, name, id, firestore, theme } = decodeQuery(null, true);
 
 module.exports = {
     apiUrl: 'https://api.esstudio.site/api/mindviewer-web',
@@ -9,6 +7,8 @@ module.exports = {
     ispublic, 
     name: name || '',
     id,
-    firestore
+    firestore,
+    theme
 }
 
+console.log('conf', module.exports);

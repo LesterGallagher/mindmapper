@@ -169,7 +169,7 @@ html {
 #messages {
     position: absolute;
     right: 20px;
-    top: 75px;
+    top: 85px;
 }
 
 #messages .message {
@@ -218,12 +218,6 @@ html {
 
 #spawn_elem_btn1 .glyph {
     font-size: 22px;
-    vertical-align: middle;
-    line-height: 20px;
-}
-
-#spawn_elem_btn2 .glyph {
-    font-size: 16px;
     vertical-align: middle;
     line-height: 20px;
 }
