@@ -78,10 +78,11 @@ exports.RemoveAll = () => {
     saved = false;
 }
 exports.CreateElement = (state) => {
-    const { type, leftpos, toppos, fontsize, backgroundcolor, content, boxshadowcol, width, height, key } = state;
+    const { type, leftpos, toppos, fontsize, backgroundcolor, content, boxshadowcol, width, height, key, src } = state;
     let loadedelem = CreateNewElement(type, key).elem;
     $(loadedelem).css('left', leftpos);
     $(loadedelem).css('top', toppos);
+    $(loadedelem).find('img').attr('src', src);
     $(loadedelem).children('textarea').css('font-size', fontsize);
     $(loadedelem).children('textarea').css('width', width);
     $(loadedelem).children('textarea').css('height', height);
@@ -678,7 +679,12 @@ function CreateNewElement(type, key, emit = false) {
 
         const id = globalelems.map(x => x[0]).indexOf(elem[0]);
         const key = $(elem).attr('data-key');
-        fieldEmitThrottled('elem_modified', { key, 'font-size': fontsize, leftpos: cleft + Xoffset, toppos: ctop + Yoffset });
+        fieldEmitThrottled('elem_modified', { 
+            key, 'font-size': fontsize, 
+            width: $(elem).find('img').attr('width'), 
+            leftpos: cleft + Xoffset, 
+            toppos: ctop + Yoffset 
+        });
     }
     //This function is binded to the window scroll event when the user hovers over the element. It gets removed once curser leaves the element.
     elem.onElemScroll = (e) => {

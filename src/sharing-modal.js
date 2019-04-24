@@ -9,7 +9,7 @@ const init = () => {
     size = size.toLowerCase();
     if (size !== 'small' && size !== 'large') size = 'medium';
 
-    var description = encodeURIComponent(document.querySelector('meta[name=description]').getAttribute('content'));
+    var description = 'Explore this mindmap: ';
     var title = encodeURIComponent($('#mainh').val() + ' Mindview');
     var url = encodeURIComponent(new window.URL(location.pathname + location.search, 'https://mindviewer.esstudio.site').href);
     const id = decodeQuery(null).room;

@@ -16,7 +16,7 @@ exports.gotHotData = false;
 
 
 exports.socketReadyPromise = new Promise((res, rej) => {
-    if (conf.ispublic === 'false') return res(); 
+    if (conf.ispublic === 'false') return res();
     var socket = io.connect(socketioConnections, { 'connect timeout': 5000 });
     socket.on('connect', function () {
         socket.emit('init', { room: conf.room, nickname }, function (isSuccess) {
@@ -78,8 +78,8 @@ exports.socketReadyPromise = new Promise((res, rej) => {
     });
 });
 
-exports.noInternetConnection = function() {
-    writeMessageToChat({ msg: 'You\'re offline. You cannot save a public mindmap when you\'re offline. Please connect to the internet.', from: ''})
+exports.noInternetConnection = function () {
+    writeMessageToChat({ msg: 'You\'re offline. You cannot save a public mindmap when you\'re offline. Please connect to the internet.', from: '' })
 }
 
 const handleFieldEvent = (data, emitBatchedMsg) => {
@@ -114,6 +114,7 @@ const configureWatcher = emitBatchedMsg => {
     });
 
     field.on('elem_modified', patch => {
+        console.log(patch);
         emitBatchedMsg({
             type: 'update',
             action: 'elem_modified',
@@ -151,7 +152,7 @@ const configureWatcher = emitBatchedMsg => {
             action: 'line_removed',
             patch: patch
         });
-    })
+    });
 
     $(document).on('mousemove', throttle(e => {
         emitBatchedMsg({
@@ -191,7 +192,7 @@ const patch = (data) => {
             console.log(globalelemnsHashed[key].get(0));
             console.log(globalelemnsHashed[key].find('input, textarea'));
             globalelemnsHashed[key].find('input, textarea').val(patch.content);
-        }   
+        }
         if (patch['font-size'] !== undefined) {
             globalelemnsHashed[key].find('input, textarea').css('font-size', patch['font-size']);
         }
@@ -205,11 +206,16 @@ const patch = (data) => {
         }
         if (patch.width !== undefined) {
             globalelemnsHashed[key].find('textarea').outerWidth(patch.width);
+            globalelemnsHashed[key].find('img').attr('width', patch.width);
             globalelemnsHashed[key].UpdateAllConnectedLines();
         }
         if (patch.height !== undefined) {
             globalelemnsHashed[key].find('textarea').outerHeight(patch.height);
+            globalelemnsHashed[key].find('img').attr('height', patch.height);
             globalelemnsHashed[key].UpdateAllConnectedLines();
+        }
+        if (patch.src !== undefined) {
+            globalelemnsHashed[key].find('img').attr('src', patch.src);
         }
     } else if (data.action === 'elem_created') {
         CreateElement(patch);

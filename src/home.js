@@ -7,6 +7,10 @@ require('bootstrap/dist/js/bootstrap');
 require('./css/home.css');
 import { decodeQuery } from './util';
 
+import * as firebase from 'firebase';
+import 'firebase/auth';
+import 'firebase/firestore';
+
 const storage = require('./storage');
 const IndexedDBStorage = require('./indexeddb-wrapper.js');
 const { saveAs } = require('file-saver');
@@ -21,6 +25,33 @@ const pub = gi('public')
 const connectRoomForm = gi('connect-room');
 const connectRoomUrl = gi('connect-room-url');
 
+const config = {
+    apiKey: "AIzaSyAru0WoUG5NBKauUOvo5naWv8jW28LT-rI",
+    authDomain: "mindmapper-a27ea.firebaseapp.com",
+    databaseURL: "https://mindmapper-a27ea.firebaseio.com",
+    projectId: "mindmapper-a27ea",
+    storageBucket: "mindmapper-a27ea.appspot.com",
+    messagingSenderId: "976340770009"
+};
+const app = firebase.initializeApp(config);
+const db = firebase.firestore();
+
+firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
+
+firebase.auth().onAuthStateChanged(function (user) {
+    if (user) {
+        var isAnonymous = user.isAnonymous;
+        var uid = user.uid;
+    } else {
+        firebase.auth().signInAnonymously().catch(function (error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            alert('Sign in Anonymously failed. We failed to verify that you are a valid user.');
+        });
+    }
+});
+
 form.addEventListener('submit', function (e) {
     e.preventDefault();
     if (!pub.checked) {
@@ -31,6 +62,7 @@ form.addEventListener('submit', function (e) {
         static: {
             name: input.value,
             id: Math.random().toString(36),
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
         },
         elems: [
             {
@@ -47,21 +79,13 @@ form.addEventListener('submit', function (e) {
         lines: []
     };
 
-    $.ajax({
-        url: "https://api.myjson.com/bins",
-        type: "POST",
-        data: JSON.stringify(obj),
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-            alert("Status: " + textStatus + "\nError: " + errorThrown);
-        },
-        success: function (data, textStatus, jqXHR) {
-            var urlPortions = data.uri.split('/');
-            var id = urlPortions[urlPortions.length - 1];
-            window.location.href = window.location.origin + '/mindmapper.html?ispublic=true&room=' + id;
-        }
+    db.collection('mindmaps').add(obj).then(docRef => {
+        const id = docRef.id;
+        window.location.href = window.location.origin + '/mindmapper.html?firestore=true&ispublic=true&room=' + id;
+    }).catch(err => {
+        alert("Unable to create a new mindmap... " + err.toString());
     });
+
     return false;
 });
 
@@ -107,7 +131,7 @@ function updateMindviews() {
                 timeago: timeago().format(new Date(mm.static.timestamp)),
                 date: new Date(mm.static.timestamp).toDateString(),
                 name: (mm.static.name || 'Unnamed'),
-                available: (mm.type === 'api_bin' ? 'online' : '')
+                available: ((mm.type === 'api_bin' || mm.type === 'firestore') ? 'online' : '')
             }));
 
             $savedMindviews.append($entityItem);
@@ -115,6 +139,8 @@ function updateMindviews() {
             $entityItem.find('.btn-open').on('click', function () {
                 if (mm.type === 'api_bin') {
                     window.location.href = window.location.origin + '/mindmapper.html?ispublic=true&id=' + mm.static.id + '&room=' + mm.room;
+                } else if (mm.type === 'firestore') {
+                    window.location.href = window.location.origin + '/mindmapper.html?ispublic=true&firestore=true&id=' + mm.static.id + '&room=' + mm.room;
                 } else {
                     window.location.href = window.location.origin + '/mindmapper.html?ispublic=false&id=' + mm.static.id;
                 }
@@ -125,6 +151,16 @@ function updateMindviews() {
                     $.get("https://api.myjson.com/bins/" + mm.room, function (data, textStatus, jqXHR) {
                         saveAs(new Blob([JSON.stringify(data)]), (mm.static.name || 'Unnamed') + '-mindview.onmm');
                     });
+                } else if (mm.type === 'firestore') {
+                    db.collection('mindmaps').doc(mm.room).get().then(doc => {
+                        if (doc.exists) {
+                            saveAs(new Blob([JSON.stringify(doc.data())]), (mm.static.name || 'Unnamed') + '-mindview.onmm');
+                        } else {
+                            alert('Sorry this mindmap no longer exists.');
+                        }
+                    }).catch(err => {
+                        alert('An error occurred: ' + err.toString());
+                    })
                 } else {
                     storage.getMindviews().then(mindviews => {
                         const storedMM = mindviews[mm.static.id];
@@ -265,6 +301,7 @@ function showMMInfo(files) {
                     timestamp: data.static.timestamp
                 }
             });
+
             $.ajax({
                 type: 'PUT',
                 url: 'https://api.myjson.com/bins/' + data.room,
@@ -279,6 +316,25 @@ function showMMInfo(files) {
                     updateMindviews();
                     alert('Stored online');
                 }
+            });
+        } else if (data.type === 'firestore') {
+            storage.putMindview({
+                type: 'firestore',
+                room: data.room,
+                static: {
+                    id: data.static.id,
+                    name: data.static.name,
+                    timestamp: data.static.timestamp
+                }
+            });
+
+            data.static.timestamp = firebase.firestore.FieldValue.serverTimestamp();
+
+            db.collection('mindmaps').doc(data.room).set().then(() => {
+                updateMindviews();
+                alert('Stored online');
+            }).catch(err => {
+                alert("Unable to save mindmap... " + err.toString());
             });
         } else {
             storage.putMindview(data).then(() => {

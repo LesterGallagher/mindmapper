@@ -7,7 +7,7 @@ html {
 
 #field {
     position: absolute;
-    overflow: auto;
+    overflow: auto!important;
     top: 0;
     left: 0;
     right: 0;
@@ -91,6 +91,7 @@ html {
     width: 100vw;
     height: 100vh;
     position: relative;
+    pointer-events: none;
 }
 
 #mouses .mouse-pos {

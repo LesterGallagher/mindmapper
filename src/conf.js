@@ -1,5 +1,5 @@
 import { decodeQuery } from './util';
-const { room, ispublic, name, id } = decodeQuery(null, true);
+const { room, ispublic, name, id, firestore } = decodeQuery(null, true);
 
 console.log(room, ispublic, name, id);
 
@@ -8,6 +8,7 @@ module.exports = {
     room,
     ispublic, 
     name: name || '',
-    id
+    id,
+    firestore
 }
 

@@ -49,6 +49,7 @@ class StateSave {
                     "lineid": parseInt(connected_elems[j].line["save_id"]).toString(),
                     "elemid": parseInt(connected_elems[j].elem["save_id"]).toString(),
                 }
+                Object.keys(connected_elem).forEach(key => connected_elem[key] === undefined && delete connected_elem[key]);
                 savebleconectedelems.push(connected_elem);
             }
             // console.log(savebleconectedelems);
@@ -63,6 +64,7 @@ class StateSave {
                     "id": elems[i]["save_id"],
                     "key": $(elems[i]).attr('data-key'),
                     "type": type,
+                    src: $(elems[i]).find('img').attr('src'),
                     "leftpos": $(elems[i]).css("left"),
                     "toppos": $(elems[i]).css("top"),
                     "connected_elems": savebleconectedelems,
@@ -83,6 +85,7 @@ class StateSave {
                     "content": $(elems[i]).children(this.typeToClass[elemclass] == 2 ? 'textarea' : 'input').val(),
                 };
             }
+            Object.keys(elem).forEach(key => elem[key] === undefined && delete elem[key]);
 
             //console.log(elem);
             savableelems.push(elem);
@@ -97,6 +100,7 @@ class StateSave {
                 "elem1": lines[i]["connected_elems"].elem1["save_id"],
                 "elem2": lines[i]["connected_elems"].elem2["save_id"]
             }
+            Object.keys(line).forEach(key => line[key] === undefined && delete line[key]);
             savablelines.push(line);
         }
         staticdata = {
