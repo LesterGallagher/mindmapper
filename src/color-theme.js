@@ -32,7 +32,7 @@ const setThemeOptionUI = () => {
         if (themes.hasOwnProperty(key) && key !== theme) {
             const color = themes[key];
             $chooseColorOptions.append(`
-                <button class="option" data-color="${color}" data-name="${key}"
+                <button class="option" data-color="${color}" data-name="${key}" title="${key}"
                     style="left: ${i++ * itemWidth}px; background-color: ${color}"></button>
             `);
         }
